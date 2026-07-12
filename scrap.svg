@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="A heap of jewellery scrap, chains and electronic contacts for recovery">
+  <defs>
+    <linearGradient id="sbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14110b"/><stop offset="1" stop-color="#0a0806"/></linearGradient>
+    <radialGradient id="sglow" cx="50%" cy="70%" r="60%"><stop offset="0" stop-color="#d4af37" stop-opacity="0.35"/><stop offset="1" stop-color="#d4af37" stop-opacity="0"/></radialGradient>
+    <linearGradient id="gold1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7e9b0"/><stop offset="0.5" stop-color="#d4af37"/><stop offset="1" stop-color="#8a6a1c"/></linearGradient>
+    <linearGradient id="silver1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef0f2"/><stop offset="1" stop-color="#9aa0a6"/></linearGradient>
+    <linearGradient id="copper1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6a06a"/><stop offset="1" stop-color="#9c5a2c"/></linearGradient>
+    <filter id="ssh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000" flood-opacity="0.5"/></filter>
+  </defs>
+  <rect width="800" height="600" fill="url(#sbg)"/>
+  <rect width="800" height="600" fill="url(#sglow)"/>
+
+  <g filter="url(#ssh)">
+    <!-- rings -->
+    <circle cx="250" cy="360" r="52" fill="none" stroke="url(#gold1)" stroke-width="16"/>
+    <circle cx="470" cy="410" r="40" fill="none" stroke="url(#silver1)" stroke-width="13"/>
+    <circle cx="560" cy="330" r="34" fill="none" stroke="url(#gold1)" stroke-width="12"/>
+    <circle cx="180" cy="450" r="30" fill="none" stroke="url(#copper1)" stroke-width="11"/>
+
+    <!-- chains -->
+    <g stroke="url(#gold1)" stroke-width="9" fill="none" stroke-linecap="round">
+      <path d="M300 300 q20 -18 40 0 q20 18 40 0 q20 -18 40 0 q20 18 40 0"/>
+      <path d="M120 380 q18 16 36 0 q18 -16 36 0 q18 16 36 0"/>
+    </g>
+    <g stroke="url(#silver1)" stroke-width="7" fill="none" stroke-linecap="round">
+      <path d="M420 470 q16 -14 32 0 q16 14 32 0 q16 -14 32 0"/>
+    </g>
+
+    <!-- ingots / bars -->
+    <rect x="330" y="440" width="120" height="46" rx="6" fill="url(#gold1)" transform="rotate(-8 390 463)"/>
+    <rect x="520" y="440" width="96" height="38" rx="6" fill="url(#silver1)" transform="rotate(6 568 459)"/>
+
+    <!-- PCB fragments (e-waste) -->
+    <g transform="rotate(-12 610 420)">
+      <rect x="560" y="390" width="100" height="70" rx="6" fill="#1f5c3a"/>
+      <rect x="572" y="404" width="20" height="14" rx="2" fill="#0d0d0d"/>
+      <rect x="600" y="404" width="30" height="14" rx="2" fill="#0d0d0d"/>
+      <g fill="url(#gold1)"><rect x="572" y="428" width="76" height="4"/><rect x="572" y="438" width="60" height="4"/><rect x="572" y="448" width="40" height="4"/><circle cx="636" cy="412" r="4"/></g>
+    </g>
+  </g>
+
+  <!-- gold dust particles -->
+  <g fill="url(#gold1)">
+    <circle cx="200" cy="250" r="3"><animate attributeName="cy" values="250;500" dur="6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="6s" repeatCount="indefinite"/></circle>
+    <circle cx="640" cy="200" r="2.4"><animate attributeName="cy" values="200;520" dur="7.5s" begin="1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="7.5s" begin="1s" repeatCount="indefinite"/></circle>
+    <circle cx="420" cy="180" r="2"><animate attributeName="cy" values="180;540" dur="8s" begin="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="8s" begin="2s" repeatCount="indefinite"/></circle>
+    <circle cx="120" cy="220" r="2.2"><animate attributeName="cy" values="220;520" dur="6.8s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="6.8s" begin="0.6s" repeatCount="indefinite"/></circle>
+  </g>
+</svg>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Stacked certified gold bullion bars">
+  <defs>
+    <linearGradient id="cbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#15110a"/><stop offset="1" stop-color="#0a0806"/></linearGradient>
+    <radialGradient id="cglow" cx="50%" cy="55%" r="60%"><stop offset="0" stop-color="#d4af37" stop-opacity="0.34"/><stop offset="1" stop-color="#d4af37" stop-opacity="0"/></radialGradient>
+    <linearGradient id="barTop" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff4cf"/><stop offset="0.5" stop-color="#e9c766"/><stop offset="1" stop-color="#caa53c"/></linearGradient>
+    <linearGradient id="barFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8b24a"/><stop offset="1" stop-color="#a07d24"/></linearGradient>
+    <linearGradient id="barSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b8912e"/><stop offset="1" stop-color="#7c5f1a"/></linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.5" stop-color="#fff" stop-opacity="0.7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#cbg)"/>
+  <rect width="800" height="600" fill="url(#cglow)"/>
+  <ellipse cx="400" cy="470" rx="300" ry="40" fill="#000" opacity="0.4"/>
+
+  <!-- helper: an isometric bar via 3 faces -->
+  <!-- bottom row bar 1 -->
+  <g>
+    <polygon points="220,380 470,380 520,410 270,410" fill="url(#barTop)"/>
+    <polygon points="270,410 520,410 520,470 270,470" fill="url(#barFront)"/>
+    <polygon points="470,380 520,410 520,470 470,440" fill="url(#barSide)"/>
+    <text x="360" y="448" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#6b4e12" opacity="0.85">999.9</text>
+  </g>
+  <!-- bottom row bar 2 (right) -->
+  <g transform="translate(30 40)">
+    <polygon points="470,340 640,340 680,366 510,366" fill="url(#barTop)"/>
+    <polygon points="510,366 680,366 680,420 510,420" fill="url(#barFront)"/>
+    <polygon points="640,340 680,366 680,420 640,394" fill="url(#barSide)"/>
+  </g>
+  <!-- second row bar -->
+  <g transform="translate(40 -70)">
+    <polygon points="260,380 470,380 512,408 302,408" fill="url(#barTop)"/>
+    <polygon points="302,408 512,408 512,462 302,462" fill="url(#barFront)"/>
+    <polygon points="470,380 512,408 512,462 470,434" fill="url(#barSide)"/>
+    <text x="386" y="442" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#6b4e12" opacity="0.85">KANAK · Au</text>
+  </g>
+  <!-- top bar -->
+  <g transform="translate(70 -150)">
+    <polygon points="300,380 470,380 508,406 338,406" fill="url(#barTop)"/>
+    <polygon points="338,406 508,406 508,456 338,456" fill="url(#barFront)"/>
+    <polygon points="470,380 508,406 508,456 470,430" fill="url(#barSide)"/>
+  </g>
+
+  <!-- moving shine sweep -->
+  <rect x="200" y="150" width="90" height="360" fill="url(#shine)" opacity="0.5" transform="skewX(-20)">
+    <animate attributeName="x" values="120;620" dur="4.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;0.5;0" dur="4.5s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- sparkles -->
+  <g fill="#fff7d6">
+    <circle cx="300" cy="250" r="2.5"><animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite"/></circle>
+    <circle cx="560" cy="300" r="2"><animate attributeName="opacity" values="0;1;0" dur="3s" begin="1s" repeatCount="indefinite"/></circle>
+    <circle cx="430" cy="200" r="2.2"><animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="0.5s" repeatCount="indefinite"/></circle>
+  </g>
+</svg>
