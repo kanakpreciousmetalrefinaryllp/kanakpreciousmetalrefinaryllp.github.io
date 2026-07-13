@@ -1,323 +1,363 @@
 /* ============================================================
-   Kanak Precious Metal Refinery — Static site interactions
-   Pure vanilla JS, no build step, no dependencies.
+   KANAK — interactions (vanilla JS + guarded CDN libraries)
    ============================================================ */
 (function () {
   'use strict';
 
   /* ---------- Config ---------- */
-  // Optional: set a real metals feed URL that returns
-  // { gold, silver, platinum, palladium } in USD/oz.
-  var METALS_API_URL = '';
-  // Optional: a form POST endpoint (e.g. Formspree). Empty = mailto fallback.
-  var FORM_ENDPOINT = '';
-  var SALES_EMAIL = 'trade@kanakrefinery.com';
+  var METALS_API_URL = '';                 // set to a feed returning {gold,silver,platinum,palladium} USD/oz
+  var FORM_ENDPOINT = '';                  // form POST endpoint; empty => opens email
+  var EMAIL = 'info@kanakpreciousmetalrefinaryllp.com';
 
-  var $ = function (s, ctx) { return (ctx || document).querySelector(s); };
-  var $$ = function (s, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(s)); };
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return [].slice.call((c || document).querySelectorAll(s)); };
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ============================================================
-     Header scroll state
+     Loader
+     ============================================================ */
+  var loader = $('#loader'), fill = $('#loaderFill'), pct = $('#loaderPct');
+  var p = 0;
+  var li = setInterval(function () {
+    p += Math.random() * 18 + 6;
+    if (p >= 100) { p = 100; clearInterval(li); setTimeout(hideLoader, 350); }
+    if (fill) fill.style.width = p + '%';
+    if (pct) pct.textContent = Math.floor(p) + '%';
+  }, 180);
+  var hidden = false;
+  function hideLoader() {
+    if (hidden) return; hidden = true;
+    if (loader) loader.classList.add('done');
+    document.body.classList.remove('loading');
+    startHero();
+  }
+  // safety: never trap the page
+  setTimeout(hideLoader, 3500);
+
+  /* ============================================================
+     Smooth scroll (Lenis) — guarded
+     ============================================================ */
+  var lenis = null;
+  if (typeof Lenis !== 'undefined' && !reduce) {
+    try {
+      lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+      function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+      requestAnimationFrame(raf);
+    } catch (e) { lenis = null; }
+  }
+  // anchor smooth scrolling that works with or without Lenis
+  $$('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      if (id.length < 2) return;
+      var el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      closeDrawer();
+      if (lenis) lenis.scrollTo(el, { offset: -80 });
+      else el.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  /* ============================================================
+     AOS — guarded + offline fallback
+     ============================================================ */
+  if (typeof AOS !== 'undefined') {
+    AOS.init({ duration: 700, once: true, offset: 60, easing: 'ease-out-cubic' });
+  } else {
+    document.documentElement.classList.add('no-aos');
+  }
+
+  /* ============================================================
+     Header scroll + mobile drawer
      ============================================================ */
   var header = $('#header');
   function onScroll() {
-    if (header) header.classList.toggle('scrolled', window.scrollY > 16);
-    var top = $('#fabTop');
-    if (top) top.classList.toggle('show', window.scrollY > 600);
+    var y = window.scrollY;
+    if (header) header.classList.toggle('scrolled', y > 20);
+    var ring = $('#progressRing'); if (ring) ring.classList.toggle('show', y > 500);
+    var pw = $('#priceWidget'); if (pw) pw.classList.toggle('show', y > 700);
+    updateProgress();
   }
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+
+  var drawer = $('#drawer'), toggle = $('#navToggle');
+  function closeDrawer() { if (drawer) drawer.classList.remove('open'); }
+  if (toggle) toggle.addEventListener('click', function () { drawer.classList.toggle('open'); });
 
   /* ============================================================
-     Mobile menu
+     Scroll progress ring + back to top
      ============================================================ */
-  var toggle = $('#navToggle');
-  var mobile = $('#mobileMenu');
-  if (toggle && mobile) {
-    toggle.addEventListener('click', function () {
-      var open = mobile.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', String(open));
-    });
-    $$('a', mobile).forEach(function (a) {
-      a.addEventListener('click', function () { mobile.classList.remove('open'); });
+  var bar = $('#ringBar');
+  var CIRC = 2 * Math.PI * 22;
+  if (bar) { bar.style.strokeDasharray = CIRC; bar.style.strokeDashoffset = CIRC; }
+  function updateProgress() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var r = h > 0 ? window.scrollY / h : 0;
+    if (bar) bar.style.strokeDashoffset = CIRC * (1 - r);
+  }
+  var toTop = $('#toTop');
+  if (toTop) toTop.addEventListener('click', function () { lenis ? lenis.scrollTo(0) : window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+  /* ============================================================
+     Magnetic buttons + ripple (desktop)
+     ============================================================ */
+  if (window.matchMedia('(pointer:fine)').matches) {
+    $$('.magnetic').forEach(function (b) {
+      b.addEventListener('mousemove', function (e) {
+        var r = b.getBoundingClientRect();
+        b.style.transform = 'translate(' + (e.clientX - r.left - r.width / 2) * .25 + 'px,' + (e.clientY - r.top - r.height / 2) * .35 + 'px)';
+      });
+      b.addEventListener('mouseleave', function () { b.style.transform = ''; });
     });
   }
+  $$('.btn').forEach(function (b) {
+    b.addEventListener('click', function (e) {
+      var r = b.getBoundingClientRect();
+      var s = document.createElement('span'); s.className = 'ripple';
+      var d = Math.max(r.width, r.height);
+      s.style.width = s.style.height = d + 'px';
+      s.style.left = (e.clientX - r.left - d / 2) + 'px';
+      s.style.top = (e.clientY - r.top - d / 2) + 'px';
+      b.appendChild(s); setTimeout(function () { s.remove(); }, 600);
+    });
+  });
 
   /* ============================================================
-     Scroll-to-top
+     Hero: typing + background slider + particles
      ============================================================ */
-  var fabTop = $('#fabTop');
-  if (fabTop) fabTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-
-  /* ============================================================
-     Reveal on scroll
-     ============================================================ */
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        if (e.target.hasAttribute('data-counter')) runCounter(e.target);
-        io.unobserve(e.target);
+  function startHero() {
+    typeLoop();
+    heroSlides();
+  }
+  var typeEl = $('#typed');
+  var words = ['Precious Metal Refinery', 'Gold & Silver Recovery', 'Purity You Can Trust'];
+  function typeLoop() {
+    if (!typeEl) return;
+    var wi = 0;
+    function type() {
+      var w = words[wi], i = 0;
+      var t = setInterval(function () {
+        typeEl.textContent = w.slice(0, ++i);
+        if (i >= w.length) {
+          clearInterval(t);
+          setTimeout(erase, 2000);
+        }
+      }, 70);
+      function erase() {
+        var e = setInterval(function () {
+          typeEl.textContent = w.slice(0, --i);
+          if (i <= 0) { clearInterval(e); wi = (wi + 1) % words.length; setTimeout(type, 300); }
+        }, 40);
       }
-    });
-  }, { threshold: 0.15, rootMargin: '-40px' });
-  $$('.reveal').forEach(function (el, i) {
-    el.style.transitionDelay = (i % 4) * 60 + 'ms';
-    io.observe(el);
-  });
-
-  /* ============================================================
-     Animated counters
-     ============================================================ */
-  function runCounter(el) {
-    var target = parseFloat(el.getAttribute('data-counter'));
-    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
-    var prefix = el.getAttribute('data-prefix') || '';
-    var suffix = el.getAttribute('data-suffix') || '';
-    var dur = 1700, start = performance.now();
-    function tick(now) {
-      var p = Math.min((now - start) / dur, 1);
-      var eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
-      var val = target * eased;
-      el.textContent = prefix + val.toLocaleString('en-US', {
-        minimumFractionDigits: decimals, maximumFractionDigits: decimals
-      }) + suffix;
-      if (p < 1) requestAnimationFrame(tick);
     }
-    requestAnimationFrame(tick);
+    type();
+  }
+  function heroSlides() {
+    var slides = $$('.hero__slide');
+    if (slides.length < 2) return;
+    var idx = 0; slides[0].classList.add('active');
+    setInterval(function () {
+      slides[idx].classList.remove('active');
+      idx = (idx + 1) % slides.length;
+      slides[idx].classList.add('active');
+    }, 5000);
   }
 
-  /* ============================================================
-     Live metal rates (with offline simulation)
-     ============================================================ */
-  var BASELINE = {
-    XAU: { name: 'Gold', price: 2418.5, unit: 'USD / troy oz' },
-    XAG: { name: 'Silver', price: 30.42, unit: 'USD / troy oz' },
-    XPT: { name: 'Platinum', price: 1012.75, unit: 'USD / troy oz' },
-    XPD: { name: 'Palladium', price: 978.3, unit: 'USD / troy oz' }
-  };
-  var API_MAP = { XAU: 'gold', XAG: 'silver', XPT: 'platinum', XPD: 'palladium' };
-
-  function fluctuate(base, seed) {
-    var m = new Date().getMinutes();
-    var wobble = Math.sin((m + seed) / 3) * 0.008 + Math.cos(seed * 1.7) * 0.004;
-    var price = base * (1 + wobble);
-    return { price: price, change: price - base, changePct: ((price - base) / base) * 100 };
-  }
-
-  function fallbackRates() {
-    return Object.keys(BASELINE).map(function (sym, i) {
-      var meta = BASELINE[sym];
-      var f = fluctuate(meta.price, i + 1);
-      return {
-        symbol: sym, name: meta.name, unit: meta.unit,
-        price: Math.round(f.price * 100) / 100,
-        change: Math.round(f.change * 100) / 100,
-        changePct: Math.round(f.changePct * 100) / 100
-      };
-    });
-  }
-
-  function getRates() {
-    if (!METALS_API_URL) return Promise.resolve({ rates: fallbackRates(), live: false });
-    return fetch(METALS_API_URL, { cache: 'no-store' })
-      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-      .then(function (data) {
-        var rates = Object.keys(BASELINE).filter(function (s) { return data[API_MAP[s]] != null; })
-          .map(function (s) {
-            var meta = BASELINE[s], price = Number(data[API_MAP[s]]);
-            return {
-              symbol: s, name: meta.name, unit: meta.unit, price: price,
-              change: Math.round((price - meta.price) * 100) / 100,
-              changePct: Math.round(((price - meta.price) / meta.price) * 10000) / 100
-            };
-          });
-        return rates.length ? { rates: rates, live: true } : { rates: fallbackRates(), live: false };
-      })
-      .catch(function () { return { rates: fallbackRates(), live: false }; });
-  }
-
-  function money(n) {
-    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-
-  function sparkline(base, up) {
-    var w = 110, h = 38, n = 22, pts = [], v = base * 0.97;
+  // gold particles
+  function particles(host, n) {
+    if (!host || reduce) return;
+    var h = '';
     for (var i = 0; i < n; i++) {
-      v += (Math.sin(i / 3) + (Math.random() - 0.5)) * base * 0.006;
-      v = Math.max(base * 0.92, Math.min(base * 1.06, v));
-      pts.push(v);
+      var sz = 1.5 + Math.random() * 3;
+      h += '<span style="left:' + (Math.random() * 100) + '%;top:' + (50 + Math.random() * 55) + '%;width:' + sz + 'px;height:' + sz + 'px;animation-duration:' + (6 + Math.random() * 8) + 's;animation-delay:' + (Math.random() * 8) + 's"></span>';
     }
-    var min = Math.min.apply(null, pts), max = Math.max.apply(null, pts), range = (max - min) || 1;
-    var d = pts.map(function (p, i) {
-      var x = (i / (n - 1)) * w, y = h - ((p - min) / range) * h;
-      return (i ? 'L' : 'M') + x.toFixed(1) + ',' + y.toFixed(1);
-    }).join(' ');
-    var color = up ? '#34d399' : '#fb7185';
-    return '<svg class="rate-card__spark" viewBox="0 0 ' + w + ' ' + h + '"><path d="' + d +
-      '" fill="none" stroke="' + color + '" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    host.innerHTML = h;
   }
+  particles($('#heroParticles'), 34);
+  particles($('#footParticles'), 20);
 
-  function arrow(up) {
-    return up
-      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="12" height="12"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>'
-      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="12" height="12"><path d="M7 7l10 10M17 17H8M17 17V8"/></svg>';
+  /* ============================================================
+     LIVE metal rates — INDIA (₹ per gram / 10 gram)
+     ------------------------------------------------------------
+     HOW THE PRICE IS FETCHED & DISPLAYED
+       1. International SPOT price (USD / troy ounce) for gold, silver and
+          platinum is fetched live from  https://gold-api.com  (free, no key,
+          CORS-enabled).
+       2. Live USD -> INR is fetched from  https://open.er-api.com  (free, no key).
+       3. Converted to ₹ per gram:
+              spot_usd_per_oz / 31.1035  ×  USD_INR  ×  (1 + INDIA_PREMIUM)
+          INDIA_PREMIUM approximates Indian import duty (~6%) + GST (~3%).
+       4. Gold 22K = Gold 24K × 0.916.  Per-10-gram = per-gram × 10.
+       5. "Today's change" is measured from the first price seen each calendar
+          day (remembered in the browser via localStorage).
+     If the live fetch fails (e.g. offline) a clearly-labelled static estimate
+     is shown instead. This is a SPOT-BASED estimate + standard duty/GST — for
+     exact IBJA / local-jeweller rates, tune INDIA_PREMIUM below, hardcode
+     OFFLINE_GRAM, or point METALS_API_URL at your own ₹/gram feed.
+     ============================================================ */
+  var USE_LIVE = true;            // fetch real live spot prices
+  var INDIA_PREMIUM = 0.09;       // ~6% import duty + ~3% GST over intl spot (tune per city)
+  var USD_INR_FALLBACK = 95.5;    // used only if the forex fetch fails
+  var OZ = 31.1034768;            // grams per troy ounce
+
+  var METALS = [
+    { key: 'gold24', name: 'Gold 24K', color: '#d4af37', spot: 'XAU', factor: 1 },
+    { key: 'gold22', name: 'Gold 22K', color: '#e6c766', spot: 'XAU', factor: 0.916 },
+    { key: 'silver', name: 'Silver', color: '#c0c0c0', spot: 'XAG', factor: 1 },
+    { key: 'platinum', name: 'Platinum', color: '#e5e4e2', spot: 'XPT', factor: 1 }
+  ];
+  var OFFLINE_GRAM = { gold24: 11800, gold22: 10800, silver: 112, platinum: 3400 }; // fallback only
+  var lastGram = {};
+
+  function dayOpen(key, val) {
+    try {
+      var k = 'kanak_open_' + key + '_' + new Date().toISOString().slice(0, 10);
+      var s = localStorage.getItem(k);
+      if (s == null) { localStorage.setItem(k, val); return val; }
+      return parseFloat(s);
+    } catch (e) { if (lastGram[key] == null) lastGram[key] = val; return lastGram[key]; }
   }
-
-  function renderTicker(rates) {
-    var el = $('#ticker');
-    if (!el) return;
-    var one = rates.map(function (r) {
-      var up = r.change >= 0;
-      return '<span class="ticker__item"><b>' + r.name + '</b> ' + money(r.price) +
-        ' <span class="' + (up ? 'up' : 'down') + '">' + arrow(up) + Math.abs(r.changePct).toFixed(2) +
-        '%</span> <span style="color:var(--faint)">/ oz</span></span>';
-    }).join('');
-    el.innerHTML = one + one; // duplicate for seamless loop
+  function finalize(m, gramNow) {
+    var open = dayOpen(m.key, gramNow), chg = gramNow - open;
+    return { key: m.key, name: m.name, color: m.color, gram: Math.round(gramNow), per10: Math.round(gramNow * 10), change10: Math.round(chg * 10), pct: open ? Math.round(chg / open * 10000) / 100 : 0 };
   }
-
-  function renderCards(rates, live) {
-    var el = $('#rateCards');
-    if (!el) return;
-    el.innerHTML = rates.map(function (r) {
-      var up = r.change >= 0;
-      return '<div class="rate-card glass card-lift">' +
-        '<div class="rate-card__top"><div><div class="rate-card__name">' + r.name + '</div>' +
-        '<div class="rate-card__unit">' + r.unit + '</div></div>' +
-        '<span class="rate-card__chip ' + (up ? 'up' : 'down') + '">' + arrow(up) + Math.abs(r.changePct).toFixed(2) + '%</span></div>' +
-        '<div class="rate-card__price text-gold">' + money(r.price) + '</div>' +
-        '<div class="rate-card__foot"><span class="' + (up ? 'up' : 'down') + '" style="font-size:12px">' +
-        (up ? '+' : '') + r.change.toFixed(2) + '</span>' + sparkline(r.price, up) + '</div></div>';
-    }).join('');
-    var note = $('#rateNote');
-    if (note) {
-      var t = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-      note.innerHTML = '<span class="dot"></span>' + (live ? 'Live feed' : 'Indicative rates') +
-        ' · updated ' + t + ' · refreshes every 60s';
+  function fetchLive() {
+    var forex = fetch('https://open.er-api.com/v6/latest/USD').then(function (r) { return r.json(); })
+      .then(function (d) { return (d && d.rates && d.rates.INR) || USD_INR_FALLBACK; }).catch(function () { return USD_INR_FALLBACK; });
+    var metals = Promise.all(['XAU', 'XAG', 'XPT'].map(function (s) {
+      return fetch('https://api.gold-api.com/price/' + s).then(function (r) { return r.json(); })
+        .then(function (d) { return { s: s, p: +d.price }; }).catch(function () { return null; });
+    }));
+    return Promise.all([forex, metals]).then(function (a) {
+      var usdinr = a[0], sp = {};
+      a[1].forEach(function (x) { if (x && x.p) sp[x.s] = x.p; });
+      if (sp.XAU == null || sp.XAG == null) throw new Error('no spot');
+      var perg = {};
+      ['XAU', 'XAG', 'XPT'].forEach(function (s) { if (sp[s] != null) perg[s] = sp[s] / OZ * usdinr * (1 + INDIA_PREMIUM); });
+      var rates = METALS.filter(function (m) { return perg[m.spot] != null; }).map(function (m) { return finalize(m, perg[m.spot] * m.factor); });
+      return { rates: rates, live: true, usdinr: usdinr };
+    });
+  }
+  function fallbackSim() {
+    var mn = new Date().getMinutes();
+    return { rates: METALS.map(function (meta, i) { return finalize(meta, OFFLINE_GRAM[meta.key] * (1 + Math.sin((mn + i) / 3) * .004)); }), live: false };
+  }
+  function getRates() {
+    if (METALS_API_URL) {
+      return fetch(METALS_API_URL, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (d) { var rr = METALS.filter(function (m) { return d[m.key] != null; }).map(function (m) { return finalize(m, +d[m.key]); }); return rr.length ? { rates: rr, live: true } : fallbackSim(); })
+        .catch(function () { return USE_LIVE ? fetchLive().catch(fallbackSim) : fallbackSim(); });
     }
+    if (USE_LIVE) return fetchLive().catch(function () { return fallbackSim(); });
+    return Promise.resolve(fallbackSim());
+  }
+  function inr(n) { return '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 0 }); }
+  function arrow(up) { return up ? '▲' : '▼'; }
+  function spark(base, up) {
+    var w = 96, h = 34, n = 20, pts = [], v = base * .985;
+    for (var i = 0; i < n; i++) { v += (Math.sin(i / 3) + (Math.random() - .5)) * base * .005; v = Math.max(base * .96, Math.min(base * 1.03, v)); pts.push(v); }
+    var mn = Math.min.apply(null, pts), mx = Math.max.apply(null, pts), rg = (mx - mn) || 1;
+    var d = pts.map(function (pp, i) { return (i ? 'L' : 'M') + (i / (n - 1) * w).toFixed(1) + ',' + (h - (pp - mn) / rg * h).toFixed(1); }).join(' ');
+    return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '"><path d="' + d + '" fill="none" stroke="' + (up ? '#37d39a' : '#ff6b7d') + '" stroke-width="1.6"/></svg>';
   }
 
-  function loadRates() {
-    getRates().then(function (res) {
-      renderTicker(res.rates);
-      renderCards(res.rates, res.live);
+  function renderRates(res) {
+    var rates = res.rates, live = res.live;
+    var tk = $('#rateTicker');
+    if (tk) { var one = rates.map(function (r) { var u = r.change10 >= 0; return '<span class="ticker__item"><b>' + r.name + '</b> ' + inr(r.per10) + '/10g <span class="' + (u ? 'up' : 'down') + '">' + arrow(u) + ' ' + Math.abs(r.pct).toFixed(2) + '%</span></span>'; }).join(''); tk.innerHTML = one + one; }
+    var cg = $('#priceCards');
+    if (cg) cg.innerHTML = rates.map(function (r) {
+      var u = r.change10 >= 0;
+      return '<div class="price-card glass lift">' +
+        '<div class="price-card__ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="' + r.color + '" opacity="0.9"/><circle cx="12" cy="12" r="9" fill="none" stroke="rgba(255,255,255,.4)"/></svg></div>' +
+        '<h3>' + r.name + '</h3><div class="unit">' + inr(r.gram) + ' / gram</div>' +
+        '<div class="val text-gold">' + inr(r.per10) + '<span style="font-size:.5em;color:var(--faint);font-family:var(--font-sub)"> / 10g</span></div>' +
+        '<div class="price-card__foot"><span class="' + (u ? 'up' : 'down') + '">' + arrow(u) + ' ' + (u ? '+' : '−') + inr(Math.abs(r.change10)) + ' (' + r.pct.toFixed(2) + '%)</span>' + spark(r.gram, u) + '</div></div>';
+    }).join('');
+    if (typeof AOS !== 'undefined') AOS.refreshHard && AOS.refreshHard();
+    var pw = $('#pwBody');
+    if (pw) pw.innerHTML = rates.slice(0, 3).map(function (r) { var u = r.change10 >= 0; return '<div class="pw-row"><span class="m">' + r.name + '</span><span class="p">' + inr(r.per10) + '</span><span class="c ' + (u ? 'up' : 'down') + '">' + (u ? '+' : '') + r.pct.toFixed(2) + '%</span></div>'; }).join('');
+    var src = $('#rateSrc');
+    if (src) src.innerHTML = live
+      ? 'Live · spot via <a href="https://gold-api.com" target="_blank" rel="noopener">gold-api.com</a> · USD→INR via <a href="https://open.er-api.com" target="_blank" rel="noopener">open.er-api.com</a> · incl. est. ' + Math.round(INDIA_PREMIUM * 100) + '% India duty &amp; GST · updated ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
+      : 'Offline estimate — live price source unavailable. Figures are indicative only.';
+    var wt = $('#pwTime'); if (wt) wt.textContent = (live ? 'Live · ' : 'Offline · ') + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+  }
+  function loadRates() { getRates().then(renderRates); }
+  loadRates(); setInterval(loadRates, 60000);
+
+  /* ============================================================
+     Counters
+     ============================================================ */
+  var counted = false;
+  function runCounters() {
+    if (counted) return; counted = true;
+    $$('[data-count]').forEach(function (el) {
+      var end = parseFloat(el.getAttribute('data-count'));
+      var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
+      if (typeof countUp !== 'undefined' && countUp.CountUp) {
+        try { new countUp.CountUp(el, end, { decimalPlaces: dec, duration: 2, suffix: el.getAttribute('data-suffix') || '' }).start(); return; } catch (e) {}
+      }
+      // fallback
+      var s = performance.now(), suf = el.getAttribute('data-suffix') || '';
+      (function tick(t) { var pr = Math.min((t - s) / 1800, 1); var e = 1 - Math.pow(2, -10 * pr); el.textContent = (end * e).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf; if (pr < 1) requestAnimationFrame(tick); })(s);
     });
   }
-  loadRates();
-  setInterval(loadRates, 60000);
+  var cSec = $('#counters');
+  if (cSec) new IntersectionObserver(function (en, o) { en.forEach(function (e) { if (e.isIntersecting) { runCounters(); o.disconnect(); } }); }, { threshold: .3 }).observe(cSec);
 
   /* ============================================================
-     Product filters
+     Process line draw
      ============================================================ */
-  $$('.filter').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var cat = btn.getAttribute('data-filter');
-      $$('.filter').forEach(function (b) { b.classList.toggle('active', b === btn); });
-      $$('.product').forEach(function (p) {
-        var show = cat === 'All' || p.getAttribute('data-cat') === cat;
-        p.classList.toggle('hide', !show);
-      });
-    });
-  });
+  var pline = $('#procLine');
+  if (pline) new IntersectionObserver(function (en, o) { en.forEach(function (e) { if (e.isIntersecting) { pline.classList.add('draw'); o.disconnect(); } }); }, { threshold: .4 }).observe(pline);
 
   /* ============================================================
-     Testimonials carousel
+     Swiper sliders — guarded
      ============================================================ */
-  var quotes = $$('#quoteData > div').map(function (d) {
-    return { quote: d.getAttribute('data-quote'), who: d.getAttribute('data-who'), role: d.getAttribute('data-role') };
-  });
-  var qIndex = 0;
-  var qText = $('#quoteText'), qWho = $('#quoteWho'), qRole = $('#quoteRole'), qDots = $('#quoteDots');
-  function renderQuote() {
-    if (!qText || !quotes.length) return;
-    var q = quotes[qIndex];
-    qText.style.opacity = 0;
-    setTimeout(function () {
-      qText.textContent = '“' + q.quote + '”';
-      qWho.textContent = q.who;
-      qRole.textContent = q.role;
-      qText.style.opacity = 1;
-    }, 150);
-    if (qDots) $$('button', qDots).forEach(function (b, i) { b.classList.toggle('active', i === qIndex); });
-  }
-  if (quotes.length && qDots) {
-    qDots.innerHTML = quotes.map(function (_, i) { return '<button aria-label="Quote ' + (i + 1) + '"></button>'; }).join('');
-    $$('button', qDots).forEach(function (b, i) { b.addEventListener('click', function () { qIndex = i; renderQuote(); }); });
-    var prev = $('#quotePrev'), next = $('#quoteNext');
-    if (prev) prev.addEventListener('click', function () { qIndex = (qIndex - 1 + quotes.length) % quotes.length; renderQuote(); });
-    if (next) next.addEventListener('click', function () { qIndex = (qIndex + 1) % quotes.length; renderQuote(); });
-    if (qText) qText.style.transition = 'opacity .3s ease';
-    renderQuote();
-    setInterval(function () { qIndex = (qIndex + 1) % quotes.length; renderQuote(); }, 7000);
+  if (typeof Swiper !== 'undefined') {
+    if ($('#gallerySwiper')) new Swiper('#gallerySwiper', { slidesPerView: 1.15, spaceBetween: 18, loop: true, autoplay: { delay: 2600, disableOnInteraction: false }, breakpoints: { 640: { slidesPerView: 2.2 }, 1024: { slidesPerView: 3.2 } } });
+    if ($('#testiSwiper')) new Swiper('#testiSwiper', { slidesPerView: 1, spaceBetween: 24, loop: true, autoplay: { delay: 4500 }, pagination: { el: '#testiSwiper .swiper-pagination', clickable: true }, breakpoints: { 768: { slidesPerView: 2 } } });
+  } else {
+    document.documentElement.classList.add('no-swiper');
   }
 
   /* ============================================================
-     FAQ accordion
-     ============================================================ */
-  $$('.faq__item').forEach(function (item) {
-    var q = $('.faq__q', item), a = $('.faq__a', item);
-    q.addEventListener('click', function () {
-      var open = item.classList.contains('open');
-      $$('.faq__item').forEach(function (it) {
-        it.classList.remove('open');
-        var aa = $('.faq__a', it); if (aa) aa.style.maxHeight = null;
-      });
-      if (!open) { item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
-    });
-  });
-
-  /* ============================================================
-     Contact / quote form
+     Forms (mailto fallback) + newsletter
      ============================================================ */
   $$('form[data-lead]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var btn = $('button[type="submit"]', form);
-      var original = btn ? btn.innerHTML : '';
-      var data = {};
-      new FormData(form).forEach(function (v, k) { data[k] = v; });
+      var btn = $('button[type="submit"]', form), orig = btn ? btn.innerHTML : '';
+      var data = {}; new FormData(form).forEach(function (v, k) { data[k] = v; });
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
-
-      function done() {
-        if (btn) { btn.textContent = '✓ Received — we’ll be in touch'; }
-        form.reset();
-        setTimeout(function () { if (btn) { btn.disabled = false; btn.innerHTML = original; } }, 5000);
-      }
-
-      if (FORM_ENDPOINT) {
-        fetch(FORM_ENDPOINT, {
-          method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(data)
-        }).then(done).catch(done);
-      } else {
-        var subject = encodeURIComponent((form.getAttribute('data-lead') === 'quote' ? 'Quote Request' : 'Enquiry') + ' — ' + (data.name || 'Website'));
-        var body = encodeURIComponent(Object.keys(data).map(function (k) {
-          return k.charAt(0).toUpperCase() + k.slice(1) + ': ' + data[k];
-        }).join('\n'));
-        window.location.href = 'mailto:' + SALES_EMAIL + '?subject=' + subject + '&body=' + body;
-        done();
+      function done() { if (btn) btn.textContent = '✓ Received'; form.reset(); setTimeout(function () { if (btn) { btn.disabled = false; btn.innerHTML = orig; } }, 4000); }
+      if (FORM_ENDPOINT) { fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) }).then(done).catch(done); }
+      else {
+        var sub = encodeURIComponent('Website Enquiry — ' + (data.name || ''));
+        var body = encodeURIComponent(Object.keys(data).map(function (k) { return k + ': ' + data[k]; }).join('\n'));
+        window.location.href = 'mailto:' + EMAIL + '?subject=' + sub + '&body=' + body; done();
       }
     });
   });
 
   /* ============================================================
-     Footer year & active nav highlight
+     Active nav highlight + year
      ============================================================ */
   var yr = $('#year'); if (yr) yr.textContent = new Date().getFullYear();
-
-  var sections = $$('section[id]');
-  var navLinks = $$('.nav__links a');
-  if (sections.length && navLinks.length) {
-    var spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
+  var secs = $$('section[id]'), links = $$('.nav__links a');
+  if (secs.length && links.length) {
+    var spy = new IntersectionObserver(function (en) {
+      en.forEach(function (e) {
         if (e.isIntersecting) {
-          var id = e.target.getAttribute('id');
-          navLinks.forEach(function (a) {
-            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
-          });
+          var id = e.target.id;
+          links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + id); });
         }
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
-    sections.forEach(function (s) { spy.observe(s); });
+    secs.forEach(function (s) { spy.observe(s); });
   }
+
+  onScroll();
 })();

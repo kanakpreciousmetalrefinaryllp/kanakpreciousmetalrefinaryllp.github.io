@@ -3,468 +3,353 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kanak Precious Metal Refinery — Precision Refining. Trusted Recovery.</title>
-  <meta name="description" content="Kanak Precious Metal Refinery specialises in precious metal recycling, refining, recovery, assaying and bullion trading — gold, silver, platinum group and industrial metals to LBMA-grade purity." />
-  <meta name="keywords" content="precious metal refinery, gold refining, silver refining, platinum recovery, palladium, e-waste recovery, catalyst recovery, bullion trading, fire assay, assaying" />
-  <meta name="theme-color" content="#0b0b0d" />
-  <link rel="canonical" href="https://kanakrefinery.com/" />
+  <title>Kanak Precious Metal Refinery LLP — Purity · Precision · Trust</title>
+  <meta name="description" content="Kanak Precious Metal Refinery LLP — precious metal recycling, refining, recovery, assaying and bullion trading. Gold, silver and platinum group metals refined to 999.9 purity in Ahmedabad, Gujarat." />
+  <meta name="keywords" content="precious metal refinery, gold refining, silver refining, platinum recovery, e-waste recovery, bullion, fire assay, Ahmedabad, Gujarat, Kanak" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <link rel="canonical" href="https://kanakpreciousmetalrefinaryllp.com/" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Kanak Precious Metal Refinery" />
-  <meta property="og:description" content="Precious metal recycling, refining, recovery, assaying and bullion trading to LBMA-grade purity." />
+  <meta property="og:title" content="Kanak Precious Metal Refinery LLP" />
+  <meta property="og:description" content="Purity · Precision · Trust — precious metal refining, recovery and bullion." />
   <meta property="og:image" content="logo.svg" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Structured data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Kanak Precious Metal Refinery",
-    "legalName": "Kanak Precious Metal Refinery LLP",
-    "url": "https://kanakrefinery.com",
-    "logo": "https://kanakrefinery.com/logo.svg",
+    "name": "Kanak Precious Metal Refinery LLP",
+    "url": "https://kanakpreciousmetalrefinaryllp.com",
+    "logo": "https://kanakpreciousmetalrefinaryllp.com/logo.svg",
     "description": "Precious metal recycling, refining, recovery, assaying and bullion trading.",
-    "foundingDate": "2004",
-    "email": "info@kanakrefinery.com",
-    "telephone": "+91 22 4000 1234",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Kanak Refinery Complex, Plot 47, MIDC Industrial Area, Andheri East",
-      "addressLocality": "Mumbai",
-      "addressRegion": "Maharashtra",
-      "postalCode": "400093",
-      "addressCountry": "IN"
-    }
+    "email": "info@kanakpreciousmetalrefinaryllp.com",
+    "telephone": "+91 98241 53695",
+    "foundingDate": "2026",
+    "address": { "@type": "PostalAddress", "streetAddress": "111 Mahagujarat Industrial Estate, Moraiya, Sanand", "addressLocality": "Ahmedabad", "addressRegion": "Gujarat", "postalCode": "382213", "addressCountry": "IN" }
   }
   </script>
 </head>
-<body>
+<body class="loading">
 
-  <!-- ===================== Rates Ticker ===================== -->
-  <div class="ticker"><div class="ticker__track" id="ticker"></div></div>
+  <!-- ===================== Loader ===================== -->
+  <div class="loader" id="loader">
+    <div class="loader__logo"><img src="logo.png" alt="Kanak" onerror="this.onerror=null;this.src='logo.svg';" /></div>
+    <div class="loader__bar"><div class="loader__fill" id="loaderFill"></div></div>
+    <div class="loader__pct num" id="loaderPct">0%</div>
+  </div>
+
+  <!-- ===================== Rates ticker ===================== -->
+  <div class="ticker"><div class="ticker__track" id="rateTicker"></div></div>
 
   <!-- ===================== Header ===================== -->
   <header class="header" id="header">
     <div class="container nav">
-      <a href="#home" class="brand" aria-label="Kanak Precious Metal Refinery">
-        <span class="brand__plaque">
-          <img src="logo.png" alt="Kanak Precious Metal Refinery" onerror="this.onerror=null;this.src='logo.svg';" />
-        </span>
+      <a href="#home" class="brand" aria-label="Kanak Precious Metal Refinery LLP">
+        <span class="brand__badge"><img src="logo.png" alt="Kanak logo" onerror="this.onerror=null;this.src='logo.svg';" /></span>
+        <span class="brand__txt"><b>KANAK</b><span>Precious Metal Refinery</span></span>
       </a>
-
       <nav class="nav__links">
         <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
+        <a href="#prices">Prices</a>
         <a href="#process">Process</a>
-        <a href="#laboratory">Laboratory</a>
-        <a href="#products">Products</a>
-        <a href="#rates">Rates</a>
-        <a href="#industries">Industries</a>
+        <a href="#why">Why Us</a>
+        <a href="#about">About</a>
+        <a href="#leadership">Leadership</a>
+        <a href="#gallery">Gallery</a>
         <a href="#contact">Contact</a>
       </nav>
-
       <div class="nav__cta">
-        <a href="tel:+912240001234" class="nav__phone">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          +91 22 4000 1234
-        </a>
-        <a href="#quote" class="btn btn-primary">Request a Quote</a>
+        <a href="tel:+919824153695" class="icon-btn" aria-label="Call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></a>
+        <a href="https://wa.me/919824153695" target="_blank" rel="noopener" class="icon-btn" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.85-2-.95s-.45-.15-.65.15-.75.95-.9 1.15-.35.2-.65.05a8 8 0 0 1-2.35-1.45 9 9 0 0 1-1.6-2c-.15-.3 0-.45.15-.6l.45-.55c.15-.2.2-.3.3-.5s.05-.4 0-.55-.65-1.55-.9-2.15-.45-.5-.65-.5h-.55a1 1 0 0 0-.75.35 3.1 3.1 0 0 0-1 2.3 5.4 5.4 0 0 0 1.15 2.9 12.3 12.3 0 0 0 4.7 4.15c2.9 1.15 2.9.75 3.45.7a2.8 2.8 0 0 0 1.85-1.3 2.3 2.3 0 0 0 .15-1.3c-.05-.1-.25-.15-.55-.3z"/></svg></a>
+        <a href="#contact" class="btn btn-gold magnetic">Get Quote</a>
       </div>
-
-      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-      </button>
+      <button class="nav__toggle" id="navToggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     </div>
-    <div class="mobile-menu" id="mobileMenu">
+    <div class="drawer" id="drawer">
       <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
+        <li><a href="#prices">Live Prices</a></li>
         <li><a href="#process">Refining Process</a></li>
-        <li><a href="#laboratory">Laboratory</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#rates">Live Rates</a></li>
-        <li><a href="#industries">Industries</a></li>
+        <li><a href="#why">Why Choose Us</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#leadership">Leadership</a></li>
+        <li><a href="#gallery">Gallery</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="#quote" class="btn btn-primary btn-block">Request a Quote</a></li>
+        <li><a href="#contact" class="btn btn-gold btn-block">Get Quote</a></li>
       </ul>
     </div>
   </header>
 
   <!-- ===================== Hero ===================== -->
   <section class="hero bg-grid" id="home">
+    <div class="hero__slides">
+      <div class="hero__slide"><img src="photo-goldbars.jpg" alt="Fine gold bars" onerror="this.onerror=null;this.src='forging.svg';" /></div>
+      <div class="hero__slide"><img src="photo-jewellery.jpg" alt="Indian gold jewellery" onerror="this.onerror=null;this.src='scrap.svg';" /></div>
+      <div class="hero__slide"><img src="photo-bullion.jpg" alt="Gold bars and coins" onerror="this.onerror=null;this.src='casting.svg';" /></div>
+    </div>
+    <div class="hero__scrim"></div>
     <div class="glow glow--1"></div>
     <div class="glow glow--2"></div>
-    <div class="orbs" aria-hidden="true">
-      <div class="orb" style="width:120px;height:120px;top:18%;right:10%;background:radial-gradient(circle at 30% 30%,#fff8,#d4af37 45%,transparent 72%);box-shadow:0 24px 60px -10px rgba(212,175,55,.4)"></div>
-      <div class="orb" style="width:74px;height:74px;top:56%;right:22%;background:radial-gradient(circle at 30% 30%,#fff8,#e5e4e2 45%,transparent 72%);animation-delay:1.4s"></div>
-      <div class="orb" style="width:52px;height:52px;top:34%;right:30%;background:radial-gradient(circle at 30% 30%,#fff8,#c0c0c0 45%,transparent 72%);animation-delay:.7s"></div>
-    </div>
+    <div class="particles" id="heroParticles"></div>
     <div class="container hero__inner">
-      <span class="eyebrow">Precision Refining · Trusted Recovery · Global Standards</span>
-      <h1>Refining the world's most <span class="text-gold">precious metals</span> with uncompromising precision.</h1>
-      <p class="hero__lead">From jewellery scrap and e-waste to spent catalysts and mining concentrates — Kanak recovers, refines and certifies gold, silver and platinum group metals to LBMA-grade purity, with full assay transparency.</p>
+      <div class="hero__badge-line"><span><i>◆</i> Purity</span><span><i>◆</i> Precision</span><span><i>◆</i> Trust</span></div>
+      <h1>Trusted <span class="type" id="typed"></span><span class="caret"></span><br />refined to perfection.</h1>
+      <p class="hero__lead">From jewellery scrap and e-waste to catalysts and concentrates — Kanak recovers, refines and certifies gold, silver and platinum group metals to 999.9 purity.</p>
       <div class="hero__actions">
-        <a href="#quote" class="btn btn-primary">Request a Quote
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a href="#process" class="btn btn-outline">Explore Our Process</a>
-      </div>
-      <div class="hero__badges">
-        <span class="hero__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> ISO 9001 · 14001 · 45001</span>
-        <span class="hero__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89 7 22l5-3 5 3-1.21-8.11"/></svg> NABL Accredited Lab</span>
-        <span class="hero__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.09 6.26L20 9.27l-5 3.64L16.18 21 12 17.27 7.82 21 9 12.91l-5-3.64 5.91.99z"/></svg> 999.9 Fineness</span>
+        <a href="#contact" class="btn btn-gold magnetic">Get a Quote <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#process" class="btn btn-outline">Explore Process</a>
       </div>
     </div>
-    <div class="hero__fade"></div>
+    <div class="hero__scroll"><div class="mouse"><span></span></div>Scroll</div>
   </section>
 
-  <!-- ===================== Live Rates ===================== -->
-  <section class="section" id="rates">
+  <!-- ===================== Live prices ===================== -->
+  <section class="section" id="prices">
     <div class="container">
-      <div class="section-head left reveal">
-        <span class="eyebrow">Live Metal Rates</span>
-        <h2>The market, in real time</h2>
-        <p>Benchmark precious-metal prices, refreshed continuously. Trade and settle against transparent, live-linked pricing.</p>
+      <div class="head center" data-aos="fade-up">
+        <div class="center"><span class="eyebrow">Live Metal Rates</span></div>
+        <h2>Today's gold &amp; silver rates</h2>
+        <p>Live international spot, converted to ₹ per gram &amp; 10 gram incl. estimated Indian duty &amp; GST.</p>
       </div>
-      <div class="rate-grid reveal" id="rateCards"></div>
-      <p class="rate-note reveal" id="rateNote"><span class="dot"></span>Loading rates…</p>
+      <div class="grid g4" id="priceCards"></div>
+      <p class="rate-src" id="rateSrc">Fetching live prices…</p>
     </div>
   </section>
 
-  <!-- ===================== About / Intro ===================== -->
-  <section class="section section-border" id="about">
-    <div class="container grid split" style="grid-template-columns:1.05fr 1fr;align-items:center;gap:56px">
-      <div class="reveal">
-        <span class="eyebrow">Est. 2004</span>
-        <h2 style="font-size:clamp(2rem,4vw,2.85rem)">Two decades of trusted <span class="text-gold">precious-metal recovery</span></h2>
-        <p style="margin-top:20px;color:var(--muted)">Kanak Precious Metal Refinery is a full-spectrum recycling, refining and assaying house. We transform scrap, dust, e-waste, catalysts and concentrates into certified, investment-grade bullion — combining metallurgical science with uncompromising transparency.</p>
-        <ul class="check-list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg> Precious, PGM and base-metal recovery</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg> B2B tolling and B2C jewellery refining</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg> Serialised, tamper-evident certification</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg> Environment-compliant, closed-loop processing</li>
-        </ul>
-      </div>
-      <div class="grid cols-2 reveal" style="gap:20px">
-        <div class="glass card-lift tile"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Assured Purity</h3><p>Every lot backed by an accredited assay certificate.</p></div>
-        <div class="glass card-lift tile"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.5M14 2v7.5M8 2h8"/><path d="M9 9.5 5 20a1 1 0 0 0 1 1.5h12a1 1 0 0 0 1-1.5L15 9.5"/></svg></div><h3>Advanced Lab</h3><p>Fire assay, XRF, ICP-OES &amp; ICP-MS under one roof.</p></div>
-        <div class="glass card-lift tile"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><h3>Secure Logistics</h3><p>Insured collection, transport and vaulting.</p></div>
-        <div class="glass card-lift tile"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></div><h3>Responsible Recovery</h3><p>Environment-compliant, closed-loop processing.</p></div>
-      </div>
-    </div>
-  </section>
+  <!-- ===================== Streams marquee ===================== -->
+  <div class="ticker" style="border-top:1px solid var(--border)"><div class="ticker__track" id="streamTrack"></div></div>
 
-  <!-- ===================== Metals ===================== -->
-  <section class="section section-border">
+  <!-- ===================== Counters ===================== -->
+  <section class="section counters" id="counters">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Metals We Deal In</span>
-        <h2>Precious, platinum-group &amp; base metals</h2>
-        <p>A broad recovery capability across the periodic table of value.</p>
-      </div>
-      <div class="grid metals-grid reveal" style="grid-template-columns:repeat(6,1fr);gap:16px">
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#d4af37">Au</span><span class="metal__name">Gold</span><span class="metal__purity">999.9</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#c0c0c0">Ag</span><span class="metal__name">Silver</span><span class="metal__purity">999.9</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#e5e4e2">Pt</span><span class="metal__name">Platinum</span><span class="metal__purity">999.5</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#cfd4d9">Pd</span><span class="metal__name">Palladium</span><span class="metal__purity">999.5</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#e2e4e6">Rh</span><span class="metal__name">Rhodium</span><span class="metal__purity">999.0</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#c7ccd1">Ru</span><span class="metal__name">Ruthenium</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#d5d8db">Ir</span><span class="metal__name">Iridium</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#b9bfc6">Os</span><span class="metal__name">Osmium</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#b87333">Cu</span><span class="metal__name">Copper</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#a8a9ad">Ni</span><span class="metal__name">Nickel</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#a3a6ab">Sn</span><span class="metal__name">Tin</span></div>
-        <div class="glass card-lift metal"><span class="metal__sym" style="color:#8f8f94">Pb</span><span class="metal__name">Lead</span></div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:44px 30px">
+        <div class="counter" data-aos="fade-up" style="min-width:150px"><div class="counter__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="counter__val text-gold"><span data-count="55" data-suffix="+">0</span></div><div class="counter__lbl">Years of Heritage</div></div>
+        <div class="counter" data-aos="fade-up" data-aos-delay="80" style="min-width:150px"><div class="counter__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9"/></svg></div><div class="counter__val text-gold"><span data-count="3800" data-suffix="+">0</span></div><div class="counter__lbl">Clients Served</div></div>
+        <div class="counter" data-aos="fade-up" data-aos-delay="160" style="min-width:150px"><div class="counter__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 20h20M4 20V8l6 4V8l6 4V8l4-2v14"/></svg></div><div class="counter__val text-gold"><span data-count="12500" data-suffix="+">0</span></div><div class="counter__lbl">KG Refined</div></div>
+        <div class="counter" data-aos="fade-up" data-aos-delay="240" style="min-width:150px"><div class="counter__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="counter__val text-gold"><span data-count="24">0</span></div><div class="counter__lbl">Cities Served</div></div>
+        <div class="counter" data-aos="fade-up" data-aos-delay="320" style="min-width:150px"><div class="counter__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.3L12 14.6 7.2 17l.9-5.3L4.2 7.9l5.4-.8z"/></svg></div><div class="counter__val text-gold"><span data-count="99.9" data-dec="1" data-suffix="%">0</span></div><div class="counter__lbl">Purity</div></div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== Services ===================== -->
-  <section class="section section-border" id="services">
+  <!-- ===================== Process ===================== -->
+  <section class="section divider" id="process">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">What We Do</span>
-        <h2>A complete refining service suite</h2>
-        <p>From single-piece jewellery scrap to industrial tolling contracts, we cover every stage of the precious-metal lifecycle.</p>
+      <div class="head center" data-aos="fade-up">
+        <div class="center"><span class="eyebrow">How We Work</span></div>
+        <h2>The refining process</h2>
+        <p>Six disciplined stages — from received material to certified delivery.</p>
       </div>
-      <div class="grid tiles cols-3">
-        <div class="glass card-lift tile reveal"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><h3>Precious Metal Refining</h3><p>End-to-end refining of gold, silver and PGMs to LBMA-grade purity via pyro- and hydrometallurgical processes.</p><div class="chips"><span class="chip">Gold</span><span class="chip">Silver</span><span class="chip">Platinum</span></div></div>
-        <div class="glass card-lift tile reveal"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6M2 9h20"/></svg></div><h3>Jewellery Scrap Refining</h3><p>Fast-turnaround recovery for jewellers — ornaments, filings, polishing dust and sweeps with full transparency.</p><div class="chips"><span class="chip">Gold</span><span class="chip">Silver</span></div></div>
-        <div class="glass card-lift tile reveal"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg></div><h3>Electronic Waste Recycling</h3><p>Certified e-waste and PCB processing that recovers gold, silver, palladium and copper within environmental norms.</p><div class="chips"><span class="chip">Gold</span><span class="chip">Palladium</span><span class="chip">Copper</span></div></div>
-        <div class="glass card-lift tile reveal"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg></div><h3>Catalyst &amp; PGM Recovery</h3><p>Recovery of platinum, palladium and rhodium from automotive catalytic converters and spent industrial catalysts.</p><div class="chips"><span class="chip">Platinum</span><span class="chip">Palladium</span><span class="chip">Rhodium</span></div></div>
-        <div class="glass card-lift tile reveal"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></div><h3>Industrial Scrap Recycling</h3><p>Large-volume recovery programmes for manufacturers — plating waste, filters, anodes and by-products.</p><div class="chips"><span class="chip">Gold</span><span class="chip">Silver</span><span class="chip">Nickel</span></div></div>
-        <div class="glass card-lift tile reveal"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31M14 9.3V1.99M8.5 2h7M14 9.3a6.5 6.5 0 1 1-4 0M5.52 16h12.96"/></svg></div><h3>Laboratory Testing &amp; Assay</h3><p>NABL-scope accredited lab offering fire assay, XRF, ICP-OES and ICP-MS with certified results.</p><div class="chips"><span class="chip">Fire Assay</span><span class="chip">XRF</span><span class="chip">ICP</span></div></div>
+      <div class="proc">
+        <div class="proc__line" id="procLine"><i></i></div>
+        <div class="proc__track" id="procTrack"></div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== Refining Process ===================== -->
-  <section class="section section-border" id="process">
+  <!-- ===================== Why choose ===================== -->
+  <section class="section divider" id="why">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">How We Work</span>
-        <h2>The 12-stage refining journey</h2>
-        <p>Every gram is tracked from collection to certified delivery. Each stage is documented, quality-checked and safety-controlled.</p>
-      </div>
-      <div class="timeline" id="timeline"></div>
-    </div>
-  </section>
-
-  <!-- ===================== Laboratory ===================== -->
-  <section class="section section-border" id="laboratory">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Analytical Excellence</span>
-        <h2>An accredited precious-metal laboratory</h2>
-        <p>Defensible results are the foundation of trust — the classical rigour of fire assay combined with modern ppb-sensitivity instrumentation.</p>
-      </div>
-      <div class="grid tiles cols-4">
-        <div class="glass card-lift tile reveal"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><h3>Fire Assay</h3><p class="product__purity">Cupellation</p><p style="margin-top:10px;color:var(--muted);font-size:.9rem">The most trusted method for gold &amp; silver content by high-temperature cupellation.</p><dl class="dl"><div><dt>Detects</dt><dd>Au, Ag content</dd></div><div><dt>Precision</dt><dd class="hl">±0.01%</dd></div></dl></div>
-        <div class="glass card-lift tile reveal"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg></div><h3>ICP-OES</h3><p class="product__purity">Optical Emission</p><p style="margin-top:10px;color:var(--muted);font-size:.9rem">Multi-element quantification down to ppm levels via inductively coupled plasma.</p><dl class="dl"><div><dt>Detects</dt><dd>Base &amp; trace</dd></div><div><dt>Precision</dt><dd class="hl">ppm-level</dd></div></dl></div>
-        <div class="glass card-lift tile reveal"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><path d="M12 2a10 10 0 0 0 0 20M12 2a10 10 0 0 1 0 20"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(120 12 12)"/></svg></div><h3>ICP-MS</h3><p class="product__purity">Mass Spectrometry</p><p style="margin-top:10px;color:var(--muted);font-size:.9rem">Ultra-trace PGM and impurity analysis at ppb sensitivity.</p><dl class="dl"><div><dt>Detects</dt><dd>PGMs, traces</dd></div><div><dt>Precision</dt><dd class="hl">ppb-level</dd></div></dl></div>
-        <div class="glass card-lift tile reveal"><div class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg></div><h3>XRF</h3><p class="product__purity">X-Ray Fluorescence</p><p style="margin-top:10px;color:var(--muted);font-size:.9rem">Non-destructive surface and bulk composition screening of alloys and scrap.</p><dl class="dl"><div><dt>Detects</dt><dd>Alloy comp.</dd></div><div><dt>Precision</dt><dd class="hl">Rapid, NDT</dd></div></dl></div>
-      </div>
-      <div class="glass-strong spec-row reveal" style="margin-top:36px">
-        <div><div class="k text-gold">±0.01%</div><div class="v">Fire assay accuracy</div></div>
-        <div><div class="k text-gold">ppb</div><div class="v">ICP-MS trace sensitivity</div></div>
-        <div><div class="k text-gold">17025</div><div class="v">ISO/IEC accreditation scope</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== Industries ===================== -->
-  <section class="section section-border" id="industries">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Industries We Serve</span>
-        <h2>Trusted across sectors</h2>
-        <p>From jewellery and electronics to aerospace and defence, our recovery programmes are tailored to each industry.</p>
-      </div>
-      <div class="grid cols-4" id="industriesGrid" style="gap:16px"></div>
-    </div>
-  </section>
-
-  <!-- ===================== Stats ===================== -->
-  <section class="section stats">
-    <div class="container">
-      <div class="stats__grid">
-        <div class="stat reveal"><div class="stat__value text-gold" data-counter="20" data-suffix="+">0</div><div class="stat__label">Years Experience</div></div>
-        <div class="stat reveal"><div class="stat__value text-gold" data-counter="12500" data-suffix="+">0</div><div class="stat__label">Tonnes Refined</div></div>
-        <div class="stat reveal"><div class="stat__value text-gold" data-counter="3800" data-suffix="+">0</div><div class="stat__label">Business Clients</div></div>
-        <div class="stat reveal"><div class="stat__value text-gold" data-counter="24">0</div><div class="stat__label">Countries Served</div></div>
-        <div class="stat reveal"><div class="stat__value text-gold" data-counter="99.9" data-decimals="1" data-suffix="%">0</div><div class="stat__label">Recovery Rate</div></div>
-        <div class="stat reveal"><div class="stat__value text-gold" data-counter="98" data-suffix="%">0</div><div class="stat__label">Satisfaction</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== Products ===================== -->
-  <section class="section section-border" id="products">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Our Products</span>
-        <h2>Certified bullion &amp; industrial metals</h2>
-        <p>Investment-grade bars, granules and coins — serialised, hallmarked and assay-certified.</p>
-      </div>
-      <div class="filters reveal">
-        <button class="filter active" data-filter="All">All</button>
-        <button class="filter" data-filter="Gold">Gold</button>
-        <button class="filter" data-filter="Silver">Silver</button>
-        <button class="filter" data-filter="Platinum">Platinum</button>
-        <button class="filter" data-filter="Custom">Custom</button>
-        <button class="filter" data-filter="Industrial">Industrial</button>
-      </div>
-      <div class="grid cols-3" id="productGrid"></div>
-    </div>
-  </section>
-
-  <!-- ===================== Why Choose ===================== -->
-  <section class="section section-border">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Why Choose Kanak</span>
+      <div class="head center" data-aos="fade-up">
+        <div class="center"><span class="eyebrow">Why Choose Kanak</span></div>
         <h2>Precision you can verify</h2>
-        <p>Trust is earned in the details — and every detail of our process is documented, certified and open to audit.</p>
+        <p>Hover a card to see what sets us apart.</p>
       </div>
-      <div class="grid tiles cols-4">
-        <div class="glass card-lift tile reveal" style="text-align:center"><div class="tile__icon" style="margin:0 auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Assay-Backed Transparency</h3><p>Every lot weighed, sampled and certified before settlement.</p></div>
-        <div class="glass card-lift tile reveal" style="text-align:center"><div class="tile__icon" style="margin:0 auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31M14 9.3V1.99M8.5 2h7M14 9.3a6.5 6.5 0 1 1-4 0"/></svg></div><h3>Accredited In-House Lab</h3><p>Fire assay, XRF, ICP-OES and ICP-MS for fast, defensible results.</p></div>
-        <div class="glass card-lift tile reveal" style="text-align:center"><div class="tile__icon" style="margin:0 auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20M4 20V8l8-5 8 5v12M9 20v-6h6v6"/></svg></div><h3>Full Recovery Capability</h3><p>12-stage line handling precious, PGM and base metals end-to-end.</p></div>
-        <div class="glass card-lift tile reveal" style="text-align:center"><div class="tile__icon" style="margin:0 auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></div><h3>Global Standards</h3><p>LBMA-referenced purity and ISO-certified processes across 24 countries.</p></div>
+      <div class="hexes" id="whyGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== About + history ===================== -->
+  <section class="section divider" id="about">
+    <div class="container about">
+      <div class="about__media" data-aos="fade-right">
+        <img src="photo-goldbars.jpg" alt="Certified fine gold bars" onerror="this.onerror=null;this.src='casting.svg';" />
+        <div class="about__media badge glass-2"><b class="num">Since 1969</b><span>A legacy of metal craftsmanship</span></div>
+      </div>
+      <div data-aos="fade-left">
+        <span class="eyebrow">Our Story</span>
+        <h2 style="font-size:clamp(2rem,4vw,2.8rem)">A heritage refined into <span class="text-gold">Kanak</span></h2>
+        <p style="margin-top:16px;color:var(--muted)">Built on over five decades of family expertise in metal craftsmanship, Kanak Precious Metal Refinery LLP unites tradition with modern refining science — delivering purity, precision and trust to customers across India.</p>
+        <div class="history" id="history"></div>
+        <div class="hero__actions" style="margin-top:26px">
+          <a href="#leadership" class="btn btn-outline">Meet the Leadership</a>
+          <a href="#contact" class="btn btn-ghost">Contact Us →</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== Certificates ===================== -->
-  <section class="section section-border">
+  <!-- ===================== Leadership ===================== -->
+  <section class="section divider" id="leadership">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Accreditations</span>
-        <h2>Certified &amp; compliant</h2>
-        <p>Our systems, laboratory and products are independently accredited and audited.</p>
+      <div class="head center" data-aos="fade-up">
+        <div class="center"><span class="eyebrow">Executive Leadership</span></div>
+        <h2>Guided by experience</h2>
+        <p>United by a shared commitment to precision, transparency and responsible growth.</p>
       </div>
-      <div class="grid cols-3" id="certGrid"></div>
+      <div class="leaders" id="leaderGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== Highlights ===================== -->
+  <section class="section divider" id="highlights">
+    <div class="container">
+      <div class="head center" data-aos="fade-up">
+        <div class="center"><span class="eyebrow">Company Highlights</span></div>
+        <h2>What defines us</h2>
+      </div>
+      <div class="grid g3" id="hlGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== Gallery ===================== -->
+  <section class="section divider gallery" id="gallery">
+    <div class="container">
+      <div class="head center" data-aos="fade-up">
+        <div class="center"><span class="eyebrow">Inside Kanak</span></div>
+        <h2>From scrap to bullion</h2>
+      </div>
+    </div>
+    <div class="container" data-aos="fade-up">
+      <div class="swiper" id="gallerySwiper"><div class="swiper-wrapper" id="galleryWrap"></div></div>
     </div>
   </section>
 
   <!-- ===================== Testimonials ===================== -->
-  <section class="section section-border">
+  <section class="section divider" id="testimonials">
     <div class="container">
-      <div class="section-head reveal"><span class="eyebrow">Client Stories</span><h2>What our partners say</h2></div>
-      <div class="glass-strong quote-card reveal">
-        <div class="quote-card__mark">&rdquo;</div>
-        <div class="stars">
-          <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-        </div>
-        <blockquote>
-          <p id="quoteText"></p>
-          <footer><div class="who" id="quoteWho"></div><div class="role" id="quoteRole"></div></footer>
-        </blockquote>
-        <div class="quote-nav">
-          <div class="dots" id="quoteDots"></div>
-          <div class="quote-arrows">
-            <button id="quotePrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-            <button id="quoteNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+      <div class="head center" data-aos="fade-up">
+        <div class="center"><span class="eyebrow">Client Stories</span></div>
+        <h2>Trusted by partners</h2>
+      </div>
+      <div class="swiper" id="testiSwiper" data-aos="fade-up">
+        <div class="swiper-wrapper" id="testiWrap"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="section">
+    <div class="container">
+      <div class="cta" data-aos="zoom-in">
+        <svg class="wave wave--2" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0 60 Q150 0 300 60 T600 60 T900 60 T1200 60 V120 H0 Z"/></svg>
+        <svg class="wave wave--1" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0 70 Q150 20 300 70 T600 70 T900 70 T1200 70 V120 H0 Z"/></svg>
+        <div style="position:relative;z-index:2">
+          <h2>Need precious metal refining?</h2>
+          <p>Get a transparent, assay-backed quote. Free assessment · insured collection · certified settlement.</p>
+          <div class="cta__actions">
+            <a href="tel:+919824153695" class="btn btn-gold magnetic">Call Now</a>
+            <a href="#contact" class="btn btn-outline">Get Quote</a>
           </div>
         </div>
       </div>
-      <div id="quoteData" style="display:none">
-        <div data-quote="Kanak turned our accumulated bench sweeps into certified bullion faster than any refiner we have worked with. The assay transparency is unmatched." data-who="Rajesh Mehta" data-role="Managing Director, Mehta Jewellers, Mumbai"></div>
-        <div data-quote="Their PGM recovery yields on our spent autocatalysts consistently beat our previous partner. Documentation is audit-ready every time." data-who="Anita Sharma" data-role="Head of Procurement, DriveTech Components"></div>
-        <div data-quote="The lab reports are meticulous and the settlement is exactly to the gram. Kanak is now our default e-waste recovery partner." data-who="Vikram Nair" data-role="Sustainability Lead, GreenCircuit Recyclers"></div>
-        <div data-quote="Professional, precise and genuinely responsive. We moved our entire silver recovery programme to Kanak within a quarter." data-who="Priya Deshpande" data-role="Operations Director, SolarEdge Manufacturing"></div>
-      </div>
     </div>
   </section>
 
-  <!-- ===================== FAQ ===================== -->
-  <section class="section section-border" id="faqs">
+  <!-- ===================== Contact ===================== -->
+  <section class="section divider" id="contact">
     <div class="container">
-      <div class="section-head reveal"><span class="eyebrow">Help Centre</span><h2>Frequently asked questions</h2></div>
-      <div class="faq reveal" id="faqList"></div>
-    </div>
-  </section>
-
-  <!-- ===================== CTA + Contact ===================== -->
-  <section class="section" id="quote">
-    <div class="container">
-      <div class="cta-band reveal">
-        <h2>Ready to unlock the value in your metal?</h2>
-        <p>Get a transparent, assay-backed quote from our team. Free assessment, insured collection, certified settlement.</p>
-        <div class="hero__actions">
-          <a href="#contact" class="btn btn-primary">Request a Quote</a>
-          <a href="tel:+912240001234" class="btn btn-outline">+91 22 4000 1234</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-border" id="contact">
-    <div class="container grid split" style="grid-template-columns:1fr 1.2fr;gap:56px">
-      <div class="reveal">
+      <div class="head" data-aos="fade-up">
         <span class="eyebrow">Get in Touch</span>
-        <h2 style="font-size:clamp(1.9rem,4vw,2.6rem)">Let's talk about your metal</h2>
-        <p style="margin-top:18px;color:var(--muted)">Tell us what you have — scrap, dust, catalysts, e-waste or a trading requirement — and our team will respond within one business day.</p>
-        <div style="margin-top:26px;display:flex;flex-direction:column;gap:14px">
-          <div class="glass contact-item"><span class="contact-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="lbl">Refinery Address</div><div class="val">Plot 47, MIDC Industrial Area, Andheri East, Mumbai 400093</div></div></div>
-          <a class="glass contact-item" href="tel:+912240001234"><span class="contact-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><div><div class="lbl">Phone</div><div class="val">+91 22 4000 1234</div></div></a>
-          <a class="glass contact-item" href="mailto:info@kanakrefinery.com"><span class="contact-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></span><div><div class="lbl">Email</div><div class="val">info@kanakrefinery.com</div></div></a>
-          <div class="glass contact-item"><span class="contact-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><div><div class="lbl">Business Hours</div><div class="val">Mon – Sat · 9:30 AM – 6:30 PM IST</div></div></div>
+        <h2>Let's talk about your metal</h2>
+      </div>
+      <div class="contact">
+        <div class="cinfo" data-aos="fade-right">
+          <div class="glass cinfo__item"><span class="cinfo__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="lbl">Address</div><div class="val">111 Mahagujarat Industrial Estate, Moraiya, Sanand, Ahmedabad, Gujarat 382213</div></div></div>
+          <a class="glass cinfo__item" href="tel:+919824153695"><span class="cinfo__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><div><div class="lbl">Mobile</div><div class="val">+91 98241 53695</div></div></a>
+          <a class="glass cinfo__item" href="mailto:info@kanakpreciousmetalrefinaryllp.com"><span class="cinfo__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></span><div><div class="lbl">Email</div><div class="val">info@kanakpreciousmetalrefinaryllp.com</div></div></a>
+          <div class="glass cinfo__item"><span class="cinfo__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><div><div class="lbl">Hours</div><div class="val">Mon – Sat · 9:30 AM – 6:30 PM IST</div></div></div>
+          <div class="map-frame">
+            <iframe title="Kanak location" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Mahagujarat%20Industrial%20Estate%2C%20Moraiya%2C%20Sanand%2C%20Ahmedabad&output=embed"></iframe>
+          </div>
+        </div>
+        <div class="glass-2" style="padding:32px" data-aos="fade-left">
+          <h3 style="font-family:var(--font-display);font-size:1.4rem">Request a Quote</h3>
+          <p style="color:var(--faint);font-size:.85rem;margin:4px 0 22px">We reply within one business day.</p>
+          <form data-lead="quote">
+            <div class="frow">
+              <div class="ffield"><input id="name" name="name" placeholder=" " required /><label for="name">Full Name *</label></div>
+              <div class="ffield"><input id="company" name="company" placeholder=" " /><label for="company">Company</label></div>
+            </div>
+            <div class="frow">
+              <div class="ffield"><input id="email" name="email" type="email" placeholder=" " required /><label for="email">Email *</label></div>
+              <div class="ffield"><input id="phone" name="phone" placeholder=" " /><label for="phone">Phone</label></div>
+            </div>
+            <div class="ffield"><input id="metal" name="metal" placeholder=" " /><label for="metal">Metal / Material</label></div>
+            <div class="ffield"><textarea id="message" name="message" placeholder=" " required></textarea><label for="message">Message *</label></div>
+            <button type="submit" class="btn btn-gold btn-block">Send Enquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button>
+          </form>
         </div>
       </div>
-      <div class="glass-strong reveal" style="padding:32px">
-        <h3 style="font-size:1.3rem">Send us a message</h3>
-        <p style="color:var(--faint);font-size:.85rem;margin-top:4px">We reply within one business day.</p>
-        <form data-lead="quote" style="margin-top:22px">
-          <div class="form-row">
-            <div class="field"><label for="name">Full Name *</label><input id="name" name="name" required placeholder="Your name" /></div>
-            <div class="field"><label for="company">Company</label><input id="company" name="company" placeholder="Company / business" /></div>
-          </div>
-          <div class="form-row">
-            <div class="field"><label for="email">Email *</label><input id="email" name="email" type="email" required placeholder="you@company.com" /></div>
-            <div class="field"><label for="phone">Phone / WhatsApp</label><input id="phone" name="phone" placeholder="+91 …" /></div>
-          </div>
-          <div class="form-row">
-            <div class="field"><label for="service">Service of Interest</label>
-              <select id="service" name="service">
-                <option value="" disabled selected>Select a service…</option>
-                <option>Precious Metal Refining</option>
-                <option>Jewellery Scrap Refining</option>
-                <option>E-Waste / PCB Recovery</option>
-                <option>Catalyst / PGM Recovery</option>
-                <option>Laboratory Testing &amp; Assay</option>
-                <option>Buy Bullion</option>
-                <option>Sell Metal / Scrap</option>
-                <option>Consultancy</option>
-              </select>
-            </div>
-            <div class="field"><label for="metal">Metal / Material</label><input id="metal" name="metal" placeholder="e.g. Gold scrap, autocatalysts" /></div>
-          </div>
-          <div class="field"><label for="message">Message *</label><textarea id="message" name="message" rows="4" required placeholder="Tell us about your material, volume and requirements…"></textarea></div>
-          <button type="submit" class="btn btn-primary btn-block">Request Quote
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button>
-          <p class="form-note">We respond within one business day. Your details are kept strictly confidential.</p>
-        </form>
-      </div>
     </div>
-    <iframe class="map" title="Kanak Refinery location" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="margin-top:56px" src="https://www.google.com/maps?q=MIDC%20Industrial%20Area%2C%20Andheri%20East%2C%20Mumbai&output=embed"></iframe>
   </section>
 
   <!-- ===================== Footer ===================== -->
   <footer class="footer">
+    <div class="particles" id="footParticles"></div>
     <div class="container">
       <div class="footer__grid">
         <div class="footer__brand">
-          <span class="brand__plaque" style="display:inline-flex"><img src="logo.png" alt="Kanak Precious Metal Refinery" style="height:46px" onerror="this.onerror=null;this.src='logo.svg';" /></span>
-          <p>Precious metal recycling, refining, recovery, assaying and bullion trading — gold, silver, platinum group and industrial metals to LBMA-grade purity.</p>
-          <div class="footer__contact">
-            <a href="tel:+912240001234"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +91 22 4000 1234</a>
-            <a href="mailto:info@kanakrefinery.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg> info@kanakrefinery.com</a>
-            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Plot 47, MIDC Industrial Area, Andheri East, Mumbai 400093</p>
-          </div>
+          <a href="#home" class="brand"><span class="brand__badge"><img src="logo.png" alt="Kanak" onerror="this.onerror=null;this.src='logo.svg';" /></span><span class="brand__txt"><b>KANAK</b><span>Precious Metal Refinery LLP</span></span></a>
+          <p>Precious metal recycling, refining, recovery, assaying and bullion trading — refined to 999.9 purity.</p>
           <div class="socials">
             <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.5 8h4V24h-4zM8 8h3.8v2.2h.05c.53-1 1.83-2.2 3.77-2.2 4.03 0 4.78 2.65 4.78 6.1V24h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V24H8z"/></svg></a>
-            <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.5 8.6L23 22h-6.8l-5.3-6.9L4.8 22H2l8-9.2L1.5 2h7l4.8 6.3zM17 20h1.7L7 4H5.2z"/></svg></a>
-            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.8-.5-5.6a2.9 2.9 0 0 0-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.5a2.9 2.9 0 0 0-2 2C1 8.2 1 12 1 12s0 3.8.5 5.6a2.9 2.9 0 0 0 2 2C5.3 20 12 20 12 20s6.7 0 8.5-.5a2.9 2.9 0 0 0 2-2C23 15.8 23 12 23 12zM9.8 15.5v-7l6 3.5z"/></svg></a>
-            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+            <a href="https://wa.me/919824153695" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.3a8.3 8.3 0 0 1-4.2-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.3 8.3 0 1 1 12 20.3z"/></svg></a>
+            <a href="mailto:info@kanakpreciousmetalrefinaryllp.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></a>
           </div>
         </div>
-        <div class="footer__cols">
-          <div><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#laboratory">Laboratory</a></li><li><a href="#process">Refining Process</a></li><li><a href="#industries">Industries</a></li></ul></div>
-          <div><h4>Capabilities</h4><ul><li><a href="#services">Services</a></li><li><a href="#products">Products</a></li><li><a href="#rates">Live Rates</a></li><li><a href="#faqs">FAQs</a></li></ul></div>
-          <div><h4>Trade</h4><ul><li><a href="#quote">Request a Quote</a></li><li><a href="#products">Buy Bullion</a></li><li><a href="#contact">Sell Metal</a></li><li><a href="#contact">Contact</a></li></ul></div>
-          <div><h4>Metals</h4><ul><li><a href="#rates">Gold</a></li><li><a href="#rates">Silver</a></li><li><a href="#rates">Platinum</a></li><li><a href="#rates">Palladium</a></li></ul></div>
+        <div class="footer__col"><h4>Company</h4><a href="#about">About</a><a href="#leadership">Leadership</a><a href="#why">Why Us</a><a href="#process">Process</a></div>
+        <div class="footer__col"><h4>Explore</h4><a href="#prices">Live Prices</a><a href="#gallery">Gallery</a><a href="#testimonials">Testimonials</a><a href="#contact">Contact</a></div>
+        <div class="footer__col">
+          <h4>Newsletter</h4>
+          <p style="color:var(--muted);font-size:.85rem">Market insights & updates.</p>
+          <form class="news" data-lead="news"><input name="email" type="email" placeholder="Your email" required /><button type="submit" aria-label="Subscribe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
         </div>
       </div>
       <div class="footer__bar">
         <span>© <span id="year"></span> Kanak Precious Metal Refinery LLP. All rights reserved.</span>
-        <span>Assay-backed · LBMA-referenced purity</span>
+        <span>Purity · Precision · Trust</span>
       </div>
     </div>
   </footer>
 
-  <!-- ===================== Floating Actions ===================== -->
-  <div class="fab">
-    <button class="fab__top" id="fabTop" aria-label="Scroll to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-    <a class="fab__wa" href="https://wa.me/919820012345?text=Hello%20Kanak%20Refinery%2C%20I%27d%20like%20to%20know%20more%20about%20your%20services." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.85-2-.95s-.45-.15-.65.15-.75.95-.9 1.15-.35.2-.65.05a8 8 0 0 1-2.35-1.45 9 9 0 0 1-1.6-2c-.15-.3 0-.45.15-.6l.45-.55c.15-.2.2-.3.3-.5s.05-.4 0-.55-.65-1.55-.9-2.15-.45-.5-.65-.5h-.55a1 1 0 0 0-.75.35 3.1 3.1 0 0 0-1 2.3 5.4 5.4 0 0 0 1.15 2.9 12.3 12.3 0 0 0 4.7 4.15c.65.3 1.15.45 1.55.55a3.7 3.7 0 0 0 1.7.1 2.8 2.8 0 0 0 1.85-1.3 2.3 2.3 0 0 0 .15-1.3c-.05-.15-.25-.2-.55-.35zM12 2a10 10 0 0 0-8.6 15l-1.4 5 5.15-1.35A10 10 0 1 0 12 2zm0 18.3a8.3 8.3 0 0 1-4.25-1.15l-.3-.2-3 .8.8-2.95-.2-.3A8.3 8.3 0 1 1 12 20.3z"/></svg>
-    </a>
+  <!-- ===================== Floating price widget ===================== -->
+  <aside class="price-widget glass-2" id="priceWidget">
+    <h4><span class="dot"></span> Live Prices</h4>
+    <div id="pwBody" style="margin-top:8px"></div>
+    <div class="t num" id="pwTime"></div>
+  </aside>
+
+  <!-- ===================== Floating actions ===================== -->
+  <div class="fabs">
+    <div class="progress-ring" id="progressRing">
+      <svg width="50" height="50"><circle cx="25" cy="25" r="22" class="track" fill="none"/><circle cx="25" cy="25" r="22" class="bar" id="ringBar" fill="none"/></svg>
+      <button id="toTop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+    </div>
+    <a class="fab-wa" href="https://wa.me/919824153695?text=Hello%20Kanak" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.3a8.3 8.3 0 0 1-4.2-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.3 8.3 0 1 1 12 20.3zm4.6-6.3c-.25-.13-1.5-.74-1.73-.82s-.4-.13-.57.13-.65.82-.8 1-.3.18-.55.06a6.8 6.8 0 0 1-2-1.24 7.6 7.6 0 0 1-1.4-1.74c-.14-.25 0-.38.11-.5l.4-.47c.12-.16.16-.26.24-.44s.04-.32-.02-.45-.57-1.38-.78-1.88-.42-.43-.57-.43h-.5a.94.94 0 0 0-.68.32 2.85 2.85 0 0 0-.9 2.12 5 5 0 0 0 1.05 2.62 11.3 11.3 0 0 0 4.3 3.8c1.9.75 1.9.5 2.25.47a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .14-1.2c-.06-.1-.22-.16-.47-.28z"/></svg></a>
   </div>
 
+  <!-- ===================== Mobile bottom bar ===================== -->
+  <nav class="mobile-bar">
+    <a href="tel:+919824153695"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Call</a>
+    <a href="https://wa.me/919824153695" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z"/></svg>WhatsApp</a>
+    <a href="https://www.google.com/maps?q=Mahagujarat+Industrial+Estate,+Moraiya,+Sanand,+Ahmedabad" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Direction</a>
+  </nav>
+
+  <!-- ===================== Scripts ===================== -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js"></script>
   <script src="content.js"></script>
   <script src="main.js"></script>
 </body>
