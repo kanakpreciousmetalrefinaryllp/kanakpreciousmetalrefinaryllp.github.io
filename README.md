@@ -48,6 +48,44 @@ site works offline). Each `<img>` falls back to a matching scene illustration if
 To use your own facility photos, just replace the `photo-*.jpg` files (keep the same names), or point
 the `src` in `index.html` / `content.js` at your image.
 
+### Extra files for mobile / SEO
+```
+manifest.json   → makes the site installable ("Add to Home Screen")
+sw.js           → service worker (offline caching + install support)
+robots.txt      → tells search engines to index the site
+sitemap.xml     → helps search engines discover the page
+```
+
+---
+
+## 📱 Mobile & "Add to Home Screen"
+
+Built mobile-first (90% of visitors are on phones):
+- Fully responsive down to small phones, comfortable 48px+ tap targets, safe-area handling for
+  notches, real-viewport height (no address-bar jump), and a **sticky bottom bar** (Call · WhatsApp ·
+  Direction) on phones.
+- **"Why Us" cards flip on tap** (mobile) as well as hover (desktop).
+- Full **mobile meta tags**: `viewport-fit=cover`, `theme-color`, Apple web-app tags, etc.
+
+**Add to Home Screen** works once the site is on **HTTPS** (GitHub Pages, Cloudflare, Netlify all
+provide it — it won't work from a plain `file://` open):
+- Android/Chrome: menu ⋮ → *Add to Home screen / Install app*.
+- iPhone/Safari: Share → *Add to Home Screen*.
+- It then opens full-screen like an app, using your `logo.png` as the icon.
+  👉 For the crispest icon, provide a **square `logo.png` (512×512)** — the manifest references it.
+
+## 🔎 SEO
+
+- Keyword-rich, **locally-targeted** title, description & keywords (e.g. "gold refinery in Ahmedabad",
+  "today gold rate Ahmedabad", "gold assaying laboratory Sanand").
+- **LocalBusiness structured data** (JSON-LD) with address, geo-coordinates, opening hours, area
+  served and founders — helps Google Business / Maps and rich results.
+- `robots.txt` + `sitemap.xml`, canonical URL, Open Graph & Twitter cards (using a real gold photo).
+- **Before going live:** if your final domain isn't `kanakpreciousmetalrefinaryllp.com`, update it in
+  the `<link rel="canonical">` + Open Graph URLs in `index.html`, in `robots.txt`, and in `sitemap.xml`.
+  Then submit the site in **Google Search Console** and create a **Google Business Profile** for the
+  strongest local ranking.
+
 ---
 
 ## ✏️ Edit content
@@ -67,12 +105,33 @@ the `src` in `index.html` / `content.js` at your image.
 ## ⚙️ Settings (top of `main.js`)
 
 ```js
-var METALS_API_URL = '';   // feed returning { gold24, gold22, silver, platinum } as INR per gram. Empty = live simulation.
-var FORM_ENDPOINT  = '';   // form POST endpoint (e.g. Formspree). Empty = opens the visitor's email app.
+var METALS_API_URL = '';   // override live prices with your own ₹/gram feed. Empty = auto live (default).
+var WEB3FORMS_KEY  = '';    // EASIEST way to receive inquiries by email (see below).
+var FORM_ENDPOINT  = '';    // OR a Formspree/custom endpoint URL.
 var EMAIL          = 'info@kanakpreciousmetalrefinaryllp.com';
+var SMOOTH_SCROLL  = false; // false = fast native scrolling (recommended). true = eased momentum feel.
 ```
 
-- **Forms** open a pre-filled email when no endpoint is set (works with zero backend).
+### 📥 Contact form — where inquiries go & how to read them
+
+By default (nothing configured) the form **opens the visitor's email app** pre-filled to your address —
+which only works if that visitor has email set up and actually presses *Send*. **Not reliable.** Pick one
+of these to actually *receive and read* every inquiry:
+
+**Option A — Web3Forms (easiest, ~30 seconds, no signup):**
+1. Go to **[web3forms.com](https://web3forms.com)**, type your email (`info@kanakpreciousmetalrefinaryllp.com`), get an **Access Key** emailed to you instantly.
+2. Paste it into `WEB3FORMS_KEY` in `main.js`.
+3. ✅ Every inquiry now arrives **in your email inbox** automatically. That inbox *is* where you read them.
+   (Free: 250 submissions/month.)
+
+**Option B — Formspree (adds an online dashboard):**
+1. Sign up at **[formspree.io](https://formspree.io)**, create a form, set the notification email to yours.
+2. Copy the endpoint (looks like `https://formspree.io/f/abcwxyz`) into `FORM_ENDPOINT`.
+3. ✅ Inquiries arrive by **email** *and* are listed/searchable in the **Formspree dashboard**.
+   (Free: 50 submissions/month.)
+
+Both work on GitHub Pages / any static host with no server of your own. `WEB3FORMS_KEY` takes priority if
+both are set. On success the button shows "✓ Received"; on failure it prompts to try email.
 
 ### 💰 How live prices work (and their source)
 

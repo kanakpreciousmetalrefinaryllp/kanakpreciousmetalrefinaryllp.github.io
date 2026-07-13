@@ -259,7 +259,7 @@ body::after { content: ''; position: fixed; inset: 0; z-index: 1; pointer-events
 .hexes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .hex { position: relative; height: 260px; perspective: 1200px; }
 .hex__inner { position: relative; width: 100%; height: 100%; transition: transform .7s; transform-style: preserve-3d; }
-.hex:hover .hex__inner { transform: rotateY(180deg); }
+.hex:hover .hex__inner, .hex.flipped .hex__inner { transform: rotateY(180deg); }
 .hex__face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--radius-lg); border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; }
 .hex__front { background: var(--surface); }
 .hex__ico { width: 66px; height: 66px; border-radius: 18px; background: rgba(201,162,39,.1); color: var(--gold-soft); display: flex; align-items: center; justify-content: center; }
@@ -451,4 +451,88 @@ body::after { content: ''; position: fixed; inset: 0; z-index: 1; pointer-events
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
   .particles, .wave { display: none; }
+}
+
+/* ============================================================
+   MOBILE-FIRST POLISH  (90% of visitors are on phones)
+   ============================================================ */
+html { -webkit-text-size-adjust: 100%; }
+body { -webkit-tap-highlight-color: transparent; }
+/* comfortable tap targets everywhere */
+a, button, .btn, .icon-btn, .filter, .nav__toggle { touch-action: manipulation; }
+
+/* use the real visible viewport height on mobile (no address-bar jump) */
+@supports (height: 100svh) {
+  .hero { min-height: 100svh; }
+}
+
+/* Tablet & below */
+@media (max-width: 900px) {
+  .hero__inner { padding: 108px 0 120px; }
+  .hero__scroll { display: none; }               /* free up space on short screens */
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  .section { padding: 60px 0; }
+  .head { margin-bottom: 40px; }
+  .head h2, .cta h2, .about h2, .forge-band h2 { font-size: clamp(1.7rem, 8vw, 2.2rem); }
+  .eyebrow { font-size: 11px; letter-spacing: .2em; }
+
+  /* header: keep brand compact, bigger tap target on toggle */
+  .nav { height: 66px; }
+  .brand__badge { width: 44px; height: 44px; }
+  .brand__txt b { font-size: 1rem; }
+  .brand__txt span { font-size: 7.5px; letter-spacing: .18em; }
+
+  /* price cards: fit long ₹ numbers, 1 per row */
+  .price-card { padding: 20px; }
+  .price-card .val { font-size: clamp(1.5rem, 7.5vw, 2rem); white-space: nowrap; }
+
+  /* counters: 2 up, tighter */
+  .counters .container > div { gap: 30px 20px !important; }
+  .counter { min-width: 42% !important; }
+
+  /* buttons stack full-width & thumb-friendly */
+  .hero__actions, .cta__actions, .footer .news { width: 100%; }
+  .hero__actions .btn, .cta__actions .btn { flex: 1 1 100%; min-height: 50px; }
+  .btn { min-height: 48px; }
+
+  /* process: keep 2 columns readable */
+  .proc__track { grid-template-columns: repeat(2, 1fr); gap: 26px 14px; }
+  .step__node { width: 60px; height: 60px; }
+
+  /* leadership: avatar sits above text for narrow screens */
+  .leader { flex-direction: column; text-align: center; gap: 14px; padding: 22px; }
+  .leader__tags { justify-content: center; }
+
+  /* testimonials / gallery breathing room */
+  .tcard { padding: 24px; }
+  .tcard blockquote { font-size: 1.02rem; }
+  .gallery .swiper-slide { height: 240px; }
+
+  /* contact cards + map */
+  .cinfo__item { padding: 16px; }
+  .map-frame iframe { height: 260px; }
+
+  /* footer: logo/newsletter comfortable */
+  .footer__grid { padding-top: 48px; gap: 30px; }
+
+  /* keep content clear of the fixed bottom bar (+ notch safe area) */
+  body { padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px)); }
+  .fabs { bottom: calc(70px + env(safe-area-inset-bottom, 0px)); right: 16px; }
+  .mobile-bar { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .mobile-bar a { padding: 12px 0; min-height: 52px; justify-content: center; }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .brand__txt span { display: none; }             /* avoid brand crowding the toggle */
+  .price-card .val { font-size: 1.45rem; }
+  .rate-src { font-size: 11px; }
+}
+
+/* Standalone (installed to Home Screen) — give the header a touch more top room */
+@media (display-mode: standalone) {
+  .header { padding-top: env(safe-area-inset-top, 0px); }
 }

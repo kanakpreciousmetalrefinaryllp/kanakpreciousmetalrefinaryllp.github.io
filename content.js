@@ -43,7 +43,7 @@
   ];
   var pt = $('#procTrack');
   if (pt) pt.innerHTML = steps.map(function (s, n) {
-    return '<div class="step" data-aos="fade-up" data-aos-delay="' + (n * 90) + '">' +
+    return '<div class="step" data-aos="fade-up" data-aos-delay="' + (n * 45) + '">' +
       '<div class="step__node"><span class="step__no num">' + (n + 1) + '</span>' + svg(s.i) + '</div>' +
       '<h3>' + s.t + '</h3><p>' + s.d + '</p></div>';
   }).join('');

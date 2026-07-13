@@ -4,10 +4,21 @@
 (function () {
   'use strict';
 
-  /* ---------- Config ---------- */
-  var METALS_API_URL = '';                 // set to a feed returning {gold,silver,platinum,palladium} USD/oz
-  var FORM_ENDPOINT = '';                  // form POST endpoint; empty => opens email
+  /* ---------- Config (BOTH ARE OPTIONAL — the site works with them empty) ---------- */
+  // Empty => prices fetch live automatically from gold-api.com + open.er-api.com (no key needed).
+  // Only set this to OVERRIDE with your own feed returning {gold24,gold22,silver,platinum} in INR/gram.
+  var METALS_API_URL = '';
+  // === CONTACT FORM — where inquiries go (pick ONE; easiest first) ===
+  // 1) EASIEST: paste a free Web3Forms access key (get it in 30s at https://web3forms.com —
+  //    just enter your email, no signup). Inquiries then arrive in your email inbox automatically.
+  var WEB3FORMS_KEY = '';
+  // 2) OR a Formspree / custom endpoint URL (POSTs JSON of the form fields).
+  var FORM_ENDPOINT = '';
+  // 3) If BOTH are empty, the form opens the visitor's email app (mailto) pre-filled.
   var EMAIL = 'info@kanakpreciousmetalrefinaryllp.com';
+
+  // Smooth-scroll momentum (Lenis). false = fast native scrolling (recommended). true = eased/premium feel.
+  var SMOOTH_SCROLL = false;
 
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return [].slice.call((c || document).querySelectorAll(s)); };
@@ -38,9 +49,9 @@
      Smooth scroll (Lenis) — guarded
      ============================================================ */
   var lenis = null;
-  if (typeof Lenis !== 'undefined' && !reduce) {
+  if (SMOOTH_SCROLL && typeof Lenis !== 'undefined' && !reduce) {
     try {
-      lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+      lenis = new Lenis({ duration: 0.8, lerp: 0.12, smoothWheel: true, wheelMultiplier: 1.1 });
       function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
       requestAnimationFrame(raf);
     } catch (e) { lenis = null; }
@@ -63,7 +74,7 @@
      AOS — guarded + offline fallback
      ============================================================ */
   if (typeof AOS !== 'undefined') {
-    AOS.init({ duration: 700, once: true, offset: 60, easing: 'ease-out-cubic' });
+    AOS.init({ duration: 450, once: true, offset: 30, delay: 0, easing: 'ease-out', disable: reduce });
   } else {
     document.documentElement.classList.add('no-aos');
   }
@@ -331,13 +342,26 @@
       e.preventDefault();
       var btn = $('button[type="submit"]', form), orig = btn ? btn.innerHTML : '';
       var data = {}; new FormData(form).forEach(function (v, k) { data[k] = v; });
+      var kind = form.getAttribute('data-lead') === 'news' ? 'Newsletter' : 'Enquiry';
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
-      function done() { if (btn) btn.textContent = '✓ Received'; form.reset(); setTimeout(function () { if (btn) { btn.disabled = false; btn.innerHTML = orig; } }, 4000); }
-      if (FORM_ENDPOINT) { fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) }).then(done).catch(done); }
-      else {
-        var sub = encodeURIComponent('Website Enquiry — ' + (data.name || ''));
+      function ok() { if (btn) btn.textContent = '✓ Received — we’ll be in touch'; form.reset(); setTimeout(function () { if (btn) { btn.disabled = false; btn.innerHTML = orig; } }, 4500); }
+      function fail() { if (btn) { btn.textContent = '⚠ Could not send — try email'; setTimeout(function () { btn.disabled = false; btn.innerHTML = orig; }, 4000); } }
+
+      if (WEB3FORMS_KEY) {
+        // Web3Forms — inquiries are emailed to your inbox automatically.
+        data.access_key = WEB3FORMS_KEY;
+        data.subject = 'Kanak Website — ' + kind + (data.name ? ' from ' + data.name : '');
+        data.from_name = data.name || 'Kanak Website';
+        fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
+          .then(function (r) { return r.json(); }).then(function (j) { j && j.success ? ok() : fail(); }).catch(fail);
+      } else if (FORM_ENDPOINT) {
+        fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
+          .then(function (r) { return r.ok ? ok() : fail(); }).catch(fail);
+      } else {
+        // No backend configured: open the visitor's email app pre-filled.
+        var sub = encodeURIComponent('Kanak Website ' + kind + ' — ' + (data.name || ''));
         var body = encodeURIComponent(Object.keys(data).map(function (k) { return k + ': ' + data[k]; }).join('\n'));
-        window.location.href = 'mailto:' + EMAIL + '?subject=' + sub + '&body=' + body; done();
+        window.location.href = 'mailto:' + EMAIL + '?subject=' + sub + '&body=' + body; ok();
       }
     });
   });
@@ -360,4 +384,21 @@
   }
 
   onScroll();
+
+  /* ============================================================
+     Touch: tap the hexagon cards to flip (hover doesn't exist on mobile)
+     ============================================================ */
+  $$('.hex').forEach(function (h) {
+    h.addEventListener('click', function () { h.classList.toggle('flipped'); });
+  });
+
+  /* ============================================================
+     Service worker — enables "Add to Home Screen" + fast repeat loads.
+     Registers only over http/https (skips file://). Safe if it fails.
+     ============================================================ */
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
 })();
