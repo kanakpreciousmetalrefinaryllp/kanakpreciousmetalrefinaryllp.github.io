@@ -2,7 +2,7 @@
    Strategy: network-first for the page (so updates show immediately),
    cache-first for same-origin static assets. Cross-origin (fonts, CDN libs,
    live price APIs) is never cached so prices always come fresh from the network. */
-var CACHE = 'kanak-v1';
+var CACHE = 'kanak-v5';
 var CORE = [
   './', './index.html', './styles.css', './main.js', './content.js',
   './logo.svg', './favicon.svg',
@@ -42,14 +42,17 @@ self.addEventListener('fetch', function (e) {
     return;
   }
 
-  // Cache-first for same-origin static assets.
+  // Stale-while-revalidate for same-origin assets: serve cache instantly for
+  // speed, but always fetch a fresh copy in the background so updates appear on
+  // the next load (prevents stale CSS/JS after you deploy changes).
   e.respondWith(
     caches.match(req).then(function (m) {
-      return m || fetch(req).then(function (res) {
+      var network = fetch(req).then(function (res) {
         var copy = res.clone();
         caches.open(CACHE).then(function (c) { c.put(req, copy); });
         return res;
-      });
+      }).catch(function () { return m; });
+      return m || network;
     })
   );
 });

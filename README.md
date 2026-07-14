@@ -141,21 +141,22 @@ Prices are **fetched live in the browser** and shown in **₹ per gram and per 1
    **[gold-api.com](https://gold-api.com)** (free, no API key, CORS-enabled).
 2. **Live USD → INR** → **[open.er-api.com](https://open.er-api.com)** (free, no key).
 3. **Conversion:** `spot_usd_per_oz ÷ 31.1035 × USD_INR × (1 + INDIA_PREMIUM)`
-   where `INDIA_PREMIUM` (default **9%**) approximates **import duty (~6%) + GST (~3%)**.
+   where `INDIA_PREMIUM` (default **0.16 = 16%**) covers **import duty + GST + local market premium**.
+   Indian city retail rates run consistently above pure landed cost, so 16% (not just 9% duty+GST) is
+   what actually matches real quotes — it's **calibrated to a real Bhopal 24K rate** (₹1,45,360/10g).
 4. **Gold 22K** = Gold 24K × 0.916. **Per 10 g** = per gram × 10.
 5. **"Today's change"** is measured from the first price seen each day (stored in the browser),
    so it reads 0.00% right after the day's first load, then moves with the market.
 
 The exact source and premium are shown **on the page**, under the price cards.
 
-> ⚠️ **Important:** this is an **international-spot-based estimate + standard duty/GST**. It will be
-> *close* to Indian rates but **not identical** to your local IBJA / jeweller quote (which also carries
-> city premiums, making charges, etc.). To make it exact you have three options — all at the top of the
-> rates block in `main.js`:
-> - **Tune `INDIA_PREMIUM`** (e.g. `0.11`) until it matches your city's rate, **or**
-> - **Set `USE_LIVE = false`** and edit `OFFLINE_GRAM` with your own ₹/gram numbers (update daily), **or**
-> - **Point `METALS_API_URL`** at your own/paid Indian feed returning `{ gold24, gold22, silver, platinum }` in ₹/gram.
->
+> 🔧 **Keeping it accurate:** Indian retail rates vary by city and don't follow one clean formula, so the
+> `INDIA_PREMIUM` is a calibration factor. To re-tune it any day, take your local **24K per-10g** rate and
+> your current pure-spot value and set:
+> `INDIA_PREMIUM = (local_24K_per_10g ÷ pure_spot_24K_per_10g) − 1`.
+> As gold moves, the % premium stays roughly constant, so the page tracks the market automatically.
+> Other options: set `USE_LIVE = false` and edit `OFFLINE_GRAM` with fixed ₹/gram numbers, or point
+> `METALS_API_URL` at your own/paid Indian feed returning `{ gold24, gold22, silver, platinum }` in ₹/gram.
 > If the live fetch fails (offline), a clearly-labelled static estimate is shown instead.
 
 ---

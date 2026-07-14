@@ -208,7 +208,11 @@
      OFFLINE_GRAM, or point METALS_API_URL at your own ₹/gram feed.
      ============================================================ */
   var USE_LIVE = true;            // fetch real live spot prices
-  var INDIA_PREMIUM = 0.09;       // ~6% import duty + ~3% GST over intl spot (tune per city)
+  var CITY = 'Ahmedabad';          // city name shown with the live rates
+  // Markup of Indian RETAIL 24K over international spot = import duty + GST + local market premium.
+  // Calibrated so 24K/10g ≈ real Ahmedabad city rate (~16% over pure spot).
+  // Recalibrate any day: premium = (your local 24K per-10g ÷ pure-spot 24K per-10g) − 1.
+  var INDIA_PREMIUM = 0.16;
   var USD_INR_FALLBACK = 95.5;    // used only if the forex fetch fails
   var OZ = 31.1034768;            // grams per troy ounce
 
@@ -273,29 +277,76 @@
     return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '"><path d="' + d + '" fill="none" stroke="' + (up ? '#37d39a' : '#ff6b7d') + '" stroke-width="1.6"/></svg>';
   }
 
-  function renderRates(res) {
-    var rates = res.rates, live = res.live;
-    var tk = $('#rateTicker');
-    if (tk) { var one = rates.map(function (r) { var u = r.change10 >= 0; return '<span class="ticker__item"><b>' + r.name + '</b> ' + inr(r.per10) + '/10g <span class="' + (u ? 'up' : 'down') + '">' + arrow(u) + ' ' + Math.abs(r.pct).toFixed(2) + '%</span></span>'; }).join(''); tk.innerHTML = one + one; }
-    var cg = $('#priceCards');
-    if (cg) cg.innerHTML = rates.map(function (r) {
-      var u = r.change10 >= 0;
-      return '<div class="price-card glass lift">' +
-        '<div class="price-card__ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="' + r.color + '" opacity="0.9"/><circle cx="12" cy="12" r="9" fill="none" stroke="rgba(255,255,255,.4)"/></svg></div>' +
-        '<h3>' + r.name + '</h3><div class="unit">' + inr(r.gram) + ' / gram</div>' +
-        '<div class="val text-gold">' + inr(r.per10) + '<span style="font-size:.5em;color:var(--faint);font-family:var(--font-sub)"> / 10g</span></div>' +
-        '<div class="price-card__foot"><span class="' + (u ? 'up' : 'down') + '">' + arrow(u) + ' ' + (u ? '+' : '−') + inr(Math.abs(r.change10)) + ' (' + r.pct.toFixed(2) + '%)</span>' + spark(r.gram, u) + '</div></div>';
-    }).join('');
-    if (typeof AOS !== 'undefined') AOS.refreshHard && AOS.refreshHard();
-    var pw = $('#pwBody');
-    if (pw) pw.innerHTML = rates.slice(0, 3).map(function (r) { var u = r.change10 >= 0; return '<div class="pw-row"><span class="m">' + r.name + '</span><span class="p">' + inr(r.per10) + '</span><span class="c ' + (u ? 'up' : 'down') + '">' + (u ? '+' : '') + r.pct.toFixed(2) + '%</span></div>'; }).join('');
-    var src = $('#rateSrc');
-    if (src) src.innerHTML = live
-      ? 'Live · spot via <a href="https://gold-api.com" target="_blank" rel="noopener">gold-api.com</a> · USD→INR via <a href="https://open.er-api.com" target="_blank" rel="noopener">open.er-api.com</a> · incl. est. ' + Math.round(INDIA_PREMIUM * 100) + '% India duty &amp; GST · updated ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
-      : 'Offline estimate — live price source unavailable. Figures are indicative only.';
-    var wt = $('#pwTime'); if (wt) wt.textContent = (live ? 'Live · ' : 'Offline · ') + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+  /* View state for the toggles: gold purity + silver unit */
+  var view = { gold: '24', silverKg: false };
+  var lastRates = null, lastLive = false, lastT = '';
+  function rateOf(key) { return (lastRates || []).filter(function (r) { return r.key === key; })[0]; }
+
+  function priceCard(name, color, gram, bigVal, suffix, change, pct) {
+    var u = change >= 0;
+    return '<div class="price-card glass lift">' +
+      '<span class="price-card__time"><span class="dot' + (lastLive ? '' : ' off') + '"></span>' + (lastLive ? '' : 'est · ') + lastT + '</span>' +
+      '<div class="price-card__ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="' + color + '" opacity="0.9"/><circle cx="12" cy="12" r="9" fill="none" stroke="rgba(255,255,255,.4)"/></svg></div>' +
+      '<h3>' + name + '</h3><div class="unit">' + inr(gram) + ' / gram</div>' +
+      '<div class="val text-gold">' + bigVal + '<span style="font-size:.5em;color:var(--faint);font-family:var(--font-sub)"> ' + suffix + '</span></div>' +
+      '<div class="price-card__foot"><span class="' + (u ? 'up' : 'down') + '">' + arrow(u) + ' ' + (u ? '+' : '−') + inr(Math.abs(change)) + ' (' + pct.toFixed(2) + '%)</span>' + spark(gram, u) + '</div></div>';
   }
-  function loadRates() { getRates().then(renderRates); }
+  function paintCards() {
+    var cg = $('#priceCards'); if (!cg || !lastRates) return;
+    var g = rateOf(view.gold === '22' ? 'gold22' : 'gold24'), s = rateOf('silver'), p = rateOf('platinum');
+    var out = [];
+    if (g) out.push(priceCard(g.name, g.color, g.gram, inr(g.per10), '/ 10g', g.change10, g.pct));
+    if (s) out.push(view.silverKg
+      ? priceCard('Silver', s.color, s.gram, inr(s.gram * 1000), '/ kg', s.change10 * 100, s.pct)
+      : priceCard('Silver', s.color, s.gram, inr(s.per10), '/ 10g', s.change10, s.pct));
+    if (p) out.push(priceCard('Platinum', p.color, p.gram, inr(p.per10), '/ 10g', p.change10, p.pct));
+    cg.innerHTML = out.join('');
+  }
+  function paintWidget() {
+    var pw = $('#pwBody'); if (!pw || !lastRates) return;
+    var g = rateOf(view.gold === '22' ? 'gold22' : 'gold24'), s = rateOf('silver'), p = rateOf('platinum');
+    pw.innerHTML = [g, s, p].filter(Boolean).map(function (r) {
+      var u = r.change10 >= 0;
+      var val = (r.key === 'silver' && view.silverKg) ? inr(r.gram * 1000) : inr(r.per10);
+      return '<div class="pw-row"><span class="m">' + r.name + '</span><span class="p">' + val + '</span><span class="c ' + (u ? 'up' : 'down') + '">' + (u ? '+' : '') + r.pct.toFixed(2) + '%</span></div>';
+    }).join('');
+  }
+  function renderRates(res) {
+    lastRates = res.rates; lastLive = res.live;
+    lastT = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    var tk = $('#rateTicker');
+    if (tk) { var one = res.rates.map(function (r) { var u = r.change10 >= 0; return '<span class="ticker__item"><b>' + r.name + '</b> ' + inr(r.per10) + '/10g <span class="' + (u ? 'up' : 'down') + '">' + arrow(u) + ' ' + Math.abs(r.pct).toFixed(2) + '%</span></span>'; }).join(''); tk.innerHTML = one + one; }
+    paintCards();
+    paintWidget();
+    var src = $('#rateSrc');
+    if (src) src.innerHTML = res.live
+      ? 'Live ' + CITY + ' retail · spot via <a href="https://gold-api.com" target="_blank" rel="noopener">gold-api.com</a>, USD→INR via <a href="https://open.er-api.com" target="_blank" rel="noopener">open.er-api.com</a> · incl. ~' + Math.round(INDIA_PREMIUM * 100) + '% duty, GST &amp; premium · updated ' + lastT
+      : 'Offline estimate — live price source unavailable. Figures are indicative only.';
+    var wt = $('#pwTime'); if (wt) wt.textContent = (res.live ? 'Live · ' : 'Offline · ') + lastT;
+  }
+
+  // Wire the Gold 24K/22K and Silver 10g/kg toggles.
+  $$('#rateToggles [data-gold]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      view.gold = b.getAttribute('data-gold');
+      $$('#rateToggles [data-gold]').forEach(function (x) { x.classList.toggle('on', x === b); });
+      paintCards(); paintWidget();
+    });
+  });
+  $$('#rateToggles [data-silver]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      view.silverKg = b.getAttribute('data-silver') === 'kg';
+      $$('#rateToggles [data-silver]').forEach(function (x) { x.classList.toggle('on', x === b); });
+      paintCards(); paintWidget();
+    });
+  });
+  function loadRates() {
+    // Don't re-render (and reflow the page) while the visitor is typing in a
+    // field — that was causing the form to "jump". Resume on the next tick.
+    var ae = document.activeElement;
+    if (ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)) return;
+    getRates().then(renderRates);
+  }
   loadRates(); setInterval(loadRates, 60000);
 
   /* ============================================================

@@ -78,9 +78,7 @@
   /* -------- Leadership (real) -------- */
   var leaders = [
     { n: 'Mr. Ambalal Patel', r: 'Founder & Executive Chairman', in: 'AP', p: 'Sets the company’s long-term vision, guiding strategy, investment and industry relations toward internationally recognised standards.', t: ['Corporate Vision', 'Business Expansion', 'Governance', 'Industry Relations'] },
-    { n: 'Mrs. Seema Ambalal Patel', r: 'Director – Compliance, Quality & ESG', in: 'SP', p: 'Leads governance, quality management systems, regulatory compliance and ESG initiatives with a culture of accountability.', t: ['Compliance', 'Quality Systems', 'Sustainability', 'Risk & Policy'] },
-    { n: 'Mr. Jitendra Patel', r: 'Managing Director – Operations & Technology', in: 'JP', p: 'Drives refinery operations, process engineering and technology adoption for productivity and product quality.', t: ['Refinery Operations', 'Process Engineering', 'Automation', 'Business Dev'] },
-    { n: 'Mrs. Suman Patel', r: 'Director – Finance & Supply Chain', in: 'SP', p: 'Oversees financial planning, procurement, commercial documentation and customer account management.', t: ['Financial Strategy', 'Procurement', 'Customer Accounts', 'Budgeting'] }
+    { n: 'Mr. Jitendra Patel', r: 'Managing Director – Operations & Technology', in: 'JP', p: 'Drives refinery operations, process engineering and technology adoption for productivity and product quality.', t: ['Refinery Operations', 'Process Engineering', 'Automation', 'Business Dev'] }
   ];
   var lg = $('#leaderGrid');
   if (lg) lg.innerHTML = leaders.map(function (l, n) {

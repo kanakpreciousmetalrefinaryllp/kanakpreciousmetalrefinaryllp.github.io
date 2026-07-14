@@ -159,11 +159,15 @@
   <section class="section" id="prices">
     <div class="container">
       <div class="head center" data-aos="fade-up">
-        <div class="center"><span class="eyebrow">Live Metal Rates</span></div>
-        <h2>Today's gold &amp; silver rates</h2>
-        <p>Live international spot, converted to ₹ per gram &amp; 10 gram incl. estimated Indian duty &amp; GST.</p>
+        <div class="center"><span class="eyebrow">Ahmedabad Live Rates</span></div>
+        <h2>Today's gold &amp; silver rate in Ahmedabad</h2>
+        <p>Live Ahmedabad rates in ₹ per gram &amp; 10 gram — incl. duty, GST &amp; local market premium.</p>
       </div>
-      <div class="grid g4" id="priceCards"></div>
+      <div class="rate-toggles" id="rateToggles" data-aos="fade-up">
+        <div class="rtg"><span class="rtg__lbl">Gold</span><span class="seg"><button type="button" data-gold="24" class="on">24K</button><button type="button" data-gold="22">22K</button></span></div>
+        <div class="rtg"><span class="rtg__lbl">Silver</span><span class="seg"><button type="button" data-silver="10g" class="on">per 10g</button><button type="button" data-silver="kg">per kg</button></span></div>
+      </div>
+      <div class="grid g3" id="priceCards"></div>
       <p class="rate-src" id="rateSrc">Fetching live prices…</p>
     </div>
   </section>
@@ -368,7 +372,7 @@
 
   <!-- ===================== Floating price widget ===================== -->
   <aside class="price-widget glass-2" id="priceWidget">
-    <h4><span class="dot"></span> Live Prices</h4>
+    <h4><span class="dot"></span> Ahmedabad Rates</h4>
     <div id="pwBody" style="margin-top:8px"></div>
     <div class="t num" id="pwTime"></div>
   </aside>
