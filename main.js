@@ -4,10 +4,9 @@
 (function () {
   'use strict';
 
-  /* ---------- Config (BOTH ARE OPTIONAL — the site works with them empty) ---------- */
-  // Empty => prices fetch live automatically from gold-api.com + open.er-api.com (no key needed).
-  // Only set this to OVERRIDE with your own feed returning {gold24,gold22,silver,platinum} in INR/gram.
-  var METALS_API_URL = '';
+  /* ---------- Config ---------- */
+  // Live gold/silver rates stream from the Aarav Bullion feed — see the
+  // "LIVE metal rates" section below (FEED_URL / FEED_ID / REFRESH_MS).
   // === CONTACT FORM — where inquiries go (pick ONE; easiest first) ===
   // 1) EASIEST: paste a free Web3Forms access key (get it in 30s at https://web3forms.com —
   //    just enter your email, no signup). Inquiries then arrive in your email inbox automatically.
@@ -189,40 +188,45 @@
   particles($('#footParticles'), 20);
 
   /* ============================================================
-     LIVE metal rates — INDIA (₹ per gram / 10 gram)
+     LIVE metal rates — AHMEDABAD (₹ per gram / 10 gram / kg)
      ------------------------------------------------------------
      HOW THE PRICE IS FETCHED & DISPLAYED
-       1. International SPOT price (USD / troy ounce) for gold, silver and
-          platinum is fetched live from  https://gold-api.com  (free, no key,
-          CORS-enabled).
-       2. Live USD -> INR is fetched from  https://open.er-api.com  (free, no key).
-       3. Converted to ₹ per gram:
-              spot_usd_per_oz / 31.1035  ×  USD_INR  ×  (1 + INDIA_PREMIUM)
-          INDIA_PREMIUM approximates Indian import duty (~6%) + GST (~3%).
-       4. Gold 22K = Gold 24K × 0.916.  Per-10-gram = per-gram × 10.
-       5. "Today's change" is measured from the first price seen each calendar
+       1. Real local Ahmedabad rates are streamed from the Aarav Bullion
+          broadcast feed (FEED_URL). A fresh, un-cached request is made every
+          REFRESH_MS (5 seconds) — each URL is unique (?_=timestamp) so no
+          proxy/browser cache can serve a stale price.
+       2. The feed is a TAB-separated text table, one metal per line:
+              <id> <tab> <name> <tab> <rate> <tab> <ask> <tab> <high> <tab> <low>
+          The first three rows (Gold($), Silver, USD) are USD spot prices; the
+          rest are the live INR rates we display.
+       3. Rows are mapped to the cards by their numeric id (see FEED_ID):
+              Gold 24K = "GOLD 999 IMP (AMD)"  — quoted per 10 gram  → ÷10 = ₹/g
+              Silver   = "SILVER 999 GGC-1KG"  — quoted per kg       → ÷1000 = ₹/g
+              Gold 22K = Gold 24K × 0.916 (the feed has no 22K line).
+       4. "Today's change" is measured from the first price seen each calendar
           day (remembered in the browser via localStorage).
      If the live fetch fails (e.g. offline) a clearly-labelled static estimate
-     is shown instead. This is a SPOT-BASED estimate + standard duty/GST — for
-     exact IBJA / local-jeweller rates, tune INDIA_PREMIUM below, hardcode
-     OFFLINE_GRAM, or point METALS_API_URL at your own ₹/gram feed.
+     is shown instead. To retarget a card at a different feed row, just change
+     the id in FEED_ID below (ids are stable across the feed).
      ============================================================ */
-  var USE_LIVE = true;            // fetch real live spot prices
+  // Aarav Bullion live broadcast feed (CORS-open, no key). ?_=timestamp is
+  // appended on every request so each poll returns a fresh, uncached price.
+  var FEED_URL = 'https://bcast.aaravbullion.in/VOTSBroadcastStreaming/Services/xml/GetLiveRateByTemplateID/aarav';
+  // Which feed row (by numeric id) drives each metal. Change these to switch
+  // between Ahmedabad / Rajkot / import / SAM-BIS quotes.
+  var FEED_ID = {
+    gold24_per10g: 2148,   // 2148 GOLD 999 IMP (AMD)   — per 10g   (2252 = SAM/BIS AMD)
+    silver_perkg: 2259     // 2259 SILVER 999 GGC-1KG   — per kg    (2174 = PETI 30kg)
+  };
+  var REFRESH_MS = 5000;          // poll the feed every 5 seconds
   var CITY = 'Ahmedabad';          // city name shown with the live rates
-  // Markup of Indian RETAIL 24K over international spot = import duty + GST + local market premium.
-  // Calibrated so 24K/10g ≈ real Ahmedabad city rate (~16% over pure spot).
-  // Recalibrate any day: premium = (your local 24K per-10g ÷ pure-spot 24K per-10g) − 1.
-  var INDIA_PREMIUM = 0.16;
-  var USD_INR_FALLBACK = 95.5;    // used only if the forex fetch fails
-  var OZ = 31.1034768;            // grams per troy ounce
 
   var METALS = [
-    { key: 'gold24', name: 'Gold 24K', color: '#d4af37', spot: 'XAU', factor: 1 },
-    { key: 'gold22', name: 'Gold 22K', color: '#e6c766', spot: 'XAU', factor: 0.916 },
-    { key: 'silver', name: 'Silver', color: '#c0c0c0', spot: 'XAG', factor: 1 },
-    { key: 'platinum', name: 'Platinum', color: '#e5e4e2', spot: 'XPT', factor: 1 }
+    { key: 'gold24', name: 'Gold 24K', color: '#d4af37', factor: 1 },
+    { key: 'gold22', name: 'Gold 22K', color: '#e6c766', factor: 0.916 },
+    { key: 'silver', name: 'Silver', color: '#c0c0c0', factor: 1 }
   ];
-  var OFFLINE_GRAM = { gold24: 11800, gold22: 10800, silver: 112, platinum: 3400 }; // fallback only
+  var OFFLINE_GRAM = { gold24: 15089, gold22: 13822, silver: 235 }; // fallback only
   var lastGram = {};
 
   function dayOpen(key, val) {
@@ -235,37 +239,41 @@
   }
   function finalize(m, gramNow) {
     var open = dayOpen(m.key, gramNow), chg = gramNow - open;
-    return { key: m.key, name: m.name, color: m.color, gram: Math.round(gramNow), per10: Math.round(gramNow * 10), change10: Math.round(chg * 10), pct: open ? Math.round(chg / open * 10000) / 100 : 0 };
+    return { key: m.key, name: m.name, color: m.color, gram: Math.round(gramNow), per10: Math.round(gramNow * 10), perkg: Math.round(gramNow * 1000), change10: Math.round(chg * 10), pct: open ? Math.round(chg / open * 10000) / 100 : 0 };
   }
-  function fetchLive() {
-    var forex = fetch('https://open.er-api.com/v6/latest/USD').then(function (r) { return r.json(); })
-      .then(function (d) { return (d && d.rates && d.rates.INR) || USD_INR_FALLBACK; }).catch(function () { return USD_INR_FALLBACK; });
-    var metals = Promise.all(['XAU', 'XAG', 'XPT'].map(function (s) {
-      return fetch('https://api.gold-api.com/price/' + s).then(function (r) { return r.json(); })
-        .then(function (d) { return { s: s, p: +d.price }; }).catch(function () { return null; });
-    }));
-    return Promise.all([forex, metals]).then(function (a) {
-      var usdinr = a[0], sp = {};
-      a[1].forEach(function (x) { if (x && x.p) sp[x.s] = x.p; });
-      if (sp.XAU == null || sp.XAG == null) throw new Error('no spot');
-      var perg = {};
-      ['XAU', 'XAG', 'XPT'].forEach(function (s) { if (sp[s] != null) perg[s] = sp[s] / OZ * usdinr * (1 + INDIA_PREMIUM); });
-      var rates = METALS.filter(function (m) { return perg[m.spot] != null; }).map(function (m) { return finalize(m, perg[m.spot] * m.factor); });
-      return { rates: rates, live: true, usdinr: usdinr };
+  // Parse the tab-separated broadcast feed into a map keyed by numeric row id.
+  // Each line: <id> <tab> <name> <tab> <rate> <tab> <ask> <tab> <high> <tab> <low>
+  // (a leading/trailing tab produces empty cells, which we drop).
+  function parseFeed(txt) {
+    var map = {};
+    txt.split(/\r?\n/).forEach(function (line) {
+      var c = line.split('\t').map(function (s) { return s.trim(); })
+        .filter(function (s) { return s !== ''; });
+      if (c.length < 3) return;                 // need at least id, name, rate
+      var id = c[0], rate = parseFloat(c[2]);
+      if (!/^\d+$/.test(id) || isNaN(rate)) return;
+      map[id] = { name: c[1], rate: rate, high: parseFloat(c[4]) || rate, low: parseFloat(c[5]) || rate };
     });
+    return map;
+  }
+  // Turn a parsed feed into the {gold24, gold22, silver} cards (all ₹ / gram).
+  function ratesFromFeed(map) {
+    var g = map[FEED_ID.gold24_per10g];   // quoted per 10 gram
+    var s = map[FEED_ID.silver_perkg];    // quoted per kg
+    if (!g || !s) throw new Error('feed row missing');
+    var gold24gram = g.rate / 10, silvergram = s.rate / 1000;
+    var gram = { gold24: gold24gram, gold22: gold24gram * 0.916, silver: silvergram };
+    return { rates: METALS.map(function (m) { return finalize(m, gram[m.key]); }), live: true };
   }
   function fallbackSim() {
     var mn = new Date().getMinutes();
     return { rates: METALS.map(function (meta, i) { return finalize(meta, OFFLINE_GRAM[meta.key] * (1 + Math.sin((mn + i) / 3) * .004)); }), live: false };
   }
   function getRates() {
-    if (METALS_API_URL) {
-      return fetch(METALS_API_URL, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw 0; return r.json(); })
-        .then(function (d) { var rr = METALS.filter(function (m) { return d[m.key] != null; }).map(function (m) { return finalize(m, +d[m.key]); }); return rr.length ? { rates: rr, live: true } : fallbackSim(); })
-        .catch(function () { return USE_LIVE ? fetchLive().catch(fallbackSim) : fallbackSim(); });
-    }
-    if (USE_LIVE) return fetchLive().catch(function () { return fallbackSim(); });
-    return Promise.resolve(fallbackSim());
+    return fetch(FEED_URL + '?_=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw 0; return r.text(); })
+      .then(function (t) { return ratesFromFeed(parseFeed(t)); })
+      .catch(function () { return fallbackSim(); });
   }
   function inr(n) { return '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 0 }); }
   function arrow(up) { return up ? '▲' : '▼'; }
@@ -293,21 +301,20 @@
   }
   function paintCards() {
     var cg = $('#priceCards'); if (!cg || !lastRates) return;
-    var g = rateOf(view.gold === '22' ? 'gold22' : 'gold24'), s = rateOf('silver'), p = rateOf('platinum');
+    var g = rateOf(view.gold === '22' ? 'gold22' : 'gold24'), s = rateOf('silver');
     var out = [];
     if (g) out.push(priceCard(g.name, g.color, g.gram, inr(g.per10), '/ 10g', g.change10, g.pct));
     if (s) out.push(view.silverKg
-      ? priceCard('Silver', s.color, s.gram, inr(s.gram * 1000), '/ kg', s.change10 * 100, s.pct)
+      ? priceCard('Silver', s.color, s.gram, inr(s.perkg), '/ kg', s.change10 * 100, s.pct)
       : priceCard('Silver', s.color, s.gram, inr(s.per10), '/ 10g', s.change10, s.pct));
-    if (p) out.push(priceCard('Platinum', p.color, p.gram, inr(p.per10), '/ 10g', p.change10, p.pct));
     cg.innerHTML = out.join('');
   }
   function paintWidget() {
     var pw = $('#pwBody'); if (!pw || !lastRates) return;
-    var g = rateOf(view.gold === '22' ? 'gold22' : 'gold24'), s = rateOf('silver'), p = rateOf('platinum');
-    pw.innerHTML = [g, s, p].filter(Boolean).map(function (r) {
+    var g = rateOf(view.gold === '22' ? 'gold22' : 'gold24'), s = rateOf('silver');
+    pw.innerHTML = [g, s].filter(Boolean).map(function (r) {
       var u = r.change10 >= 0;
-      var val = (r.key === 'silver' && view.silverKg) ? inr(r.gram * 1000) : inr(r.per10);
+      var val = (r.key === 'silver' && view.silverKg) ? inr(r.perkg) : inr(r.per10);
       return '<div class="pw-row"><span class="m">' + r.name + '</span><span class="p">' + val + '</span><span class="c ' + (u ? 'up' : 'down') + '">' + (u ? '+' : '') + r.pct.toFixed(2) + '%</span></div>';
     }).join('');
   }
@@ -320,8 +327,8 @@
     paintWidget();
     var src = $('#rateSrc');
     if (src) src.innerHTML = res.live
-      ? 'Live ' + CITY + ' retail · spot via <a href="https://gold-api.com" target="_blank" rel="noopener">gold-api.com</a>, USD→INR via <a href="https://open.er-api.com" target="_blank" rel="noopener">open.er-api.com</a> · incl. ~' + Math.round(INDIA_PREMIUM * 100) + '% duty, GST &amp; premium · updated ' + lastT
-      : 'Offline estimate — live price source unavailable. Figures are indicative only.';
+      ? 'Live ' + CITY + ' rates — Gold 999 &amp; Silver 999 · streamed from Aarav Bullion · refreshed every ' + (REFRESH_MS / 1000) + 's · updated ' + lastT
+      : 'Offline estimate — live price feed unavailable. Figures are indicative only.';
     var wt = $('#pwTime'); if (wt) wt.textContent = (res.live ? 'Live · ' : 'Offline · ') + lastT;
   }
 
@@ -347,7 +354,7 @@
     if (ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)) return;
     getRates().then(renderRates);
   }
-  loadRates(); setInterval(loadRates, 60000);
+  loadRates(); setInterval(loadRates, REFRESH_MS);
 
   /* ============================================================
      Counters
