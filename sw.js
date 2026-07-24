@@ -2,11 +2,12 @@
    Strategy: network-first for the page (so updates show immediately),
    cache-first for same-origin static assets. Cross-origin (fonts, CDN libs,
    live price APIs) is never cached so prices always come fresh from the network. */
-var CACHE = 'kanak-v7';
+var CACHE = 'kanak-v8';
 var CORE = [
-  './', './index.html', './styles.css', './main.js', './content.js',
+  './', './index.html', './styles.css', './main.js', './content.js', './manifest.json',
   './logo.svg', './favicon.svg',
-  './photo-goldbars.jpg', './photo-bullion.jpg', './photo-jewellery.jpg', './photo-earrings.jpg',
+  './logo.png', './logo-192.png', './logo-maskable.png', './apple-touch-icon.png',
+  './photo-goldbars.jpg', './photo-bullion.jpg', './photo-jewellery.jpg', './photo-earrings.jpg', './photo-goldpour.jpg',
   './forging.svg', './scrap.svg', './refining.svg', './casting.svg'
 ];
 

@@ -28,7 +28,9 @@
   <meta name="application-name" content="Kanak Refinery" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="apple-touch-icon" href="logo.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="logo-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="logo.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <link rel="mask-icon" href="favicon.svg" color="#c9a227" />
 
   <!-- Open Graph / Twitter -->
@@ -105,10 +107,10 @@
         <a href="#home">Home</a>
         <a href="#prices">Prices</a>
         <a href="#process">Process</a>
+        <a href="#gallery">Gallery</a>
         <a href="#why">Why Us</a>
         <a href="#about">About</a>
         <a href="#leadership">Leadership</a>
-        <a href="#gallery">Gallery</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="nav__cta">
@@ -122,10 +124,10 @@
       <ul>
         <li><a href="#prices">Live Prices</a></li>
         <li><a href="#process">Refining Process</a></li>
+        <li><a href="#gallery">Gallery</a></li>
         <li><a href="#why">Why Choose Us</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#leadership">Leadership</a></li>
-        <li><a href="#gallery">Gallery</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="#contact" class="btn btn-gold btn-block">Get Quote</a></li>
       </ul>
@@ -154,6 +156,161 @@
     </div>
     <div class="hero__scroll"><div class="mouse"><span></span></div>Scroll</div>
   </section>
+
+  <!-- ===================== Decorative gold ornaments (prices → footer) ===================== -->
+  <div class="ornate">
+    <!-- reusable gold motifs -->
+    <svg class="orn-defs" width="0" height="0" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ornGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2a0"/><stop offset="0.5" stop-color="#c9a227"/><stop offset="1" stop-color="#8a6a1c"/></linearGradient>
+        <linearGradient id="ornGoldTop" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffe9a8"/><stop offset="0.5" stop-color="#f3cf5f"/><stop offset="1" stop-color="#d0a92b"/></linearGradient>
+        <symbol id="m-branch" viewBox="0 0 160 300">
+          <path d="M84 296 C 60 244 100 214 82 160 C 66 112 100 74 80 20" fill="none" stroke="url(#ornGold)" stroke-width="2.4" stroke-linecap="round"/>
+          <g fill="url(#ornGold)">
+            <path d="M0 0 C 11 -4 12 -20 2 -34 C -8 -20 -8 -4 0 0 Z" transform="translate(80 268) rotate(-52)"/>
+            <path d="M0 0 C 11 -4 12 -20 2 -34 C -8 -20 -8 -4 0 0 Z" transform="translate(84 236) rotate(48)"/>
+            <path d="M0 0 C 11 -4 12 -20 2 -34 C -8 -20 -8 -4 0 0 Z" transform="translate(82 206) rotate(-52)"/>
+            <path d="M0 0 C 11 -4 12 -20 2 -34 C -8 -20 -8 -4 0 0 Z" transform="translate(88 176) rotate(46)"/>
+            <path d="M0 0 C 11 -4 12 -20 2 -34 C -8 -20 -8 -4 0 0 Z" transform="translate(82 150) rotate(-54)"/>
+            <path d="M0 0 C 11 -4 12 -20 2 -34 C -8 -20 -8 -4 0 0 Z" transform="translate(90 120) rotate(44)"/>
+            <path d="M0 0 C 11 -4 12 -20 2 -34 C -8 -20 -8 -4 0 0 Z" transform="translate(84 92) rotate(-52)"/>
+            <path d="M0 0 C 11 -4 12 -20 2 -34 C -8 -20 -8 -4 0 0 Z" transform="translate(90 64) rotate(42)"/>
+            <path d="M0 0 C 11 -4 12 -20 2 -34 C -8 -20 -8 -4 0 0 Z" transform="translate(82 40) rotate(-50)"/>
+            <path d="M0 0 C 10 -3 11 -18 2 -30 C -8 -18 -8 -3 0 0 Z" transform="translate(80 20) rotate(6)"/>
+          </g>
+          <g fill="url(#ornGoldTop)"><circle cx="76" cy="255" r="3"/><circle cx="92" cy="188" r="3"/><circle cx="76" cy="128" r="2.6"/></g>
+        </symbol>
+        <symbol id="m-leaf" viewBox="0 0 140 210">
+          <path d="M70 206 C 58 160 84 130 70 84 C 62 54 78 36 70 8" fill="none" stroke="url(#ornGold)" stroke-width="2.2" stroke-linecap="round"/>
+          <g fill="url(#ornGold)">
+            <path d="M0 0 C 10 -3 11 -18 2 -30 C -8 -18 -8 -3 0 0 Z" transform="translate(70 180) rotate(-50)"/>
+            <path d="M0 0 C 10 -3 11 -18 2 -30 C -8 -18 -8 -3 0 0 Z" transform="translate(74 150) rotate(46)"/>
+            <path d="M0 0 C 10 -3 11 -18 2 -30 C -8 -18 -8 -3 0 0 Z" transform="translate(70 120) rotate(-50)"/>
+            <path d="M0 0 C 10 -3 11 -18 2 -30 C -8 -18 -8 -3 0 0 Z" transform="translate(76 92) rotate(46)"/>
+            <path d="M0 0 C 10 -3 11 -18 2 -30 C -8 -18 -8 -3 0 0 Z" transform="translate(70 64) rotate(-48)"/>
+            <path d="M0 0 C 10 -3 11 -18 2 -30 C -8 -18 -8 -3 0 0 Z" transform="translate(72 36) rotate(40)"/>
+            <path d="M0 0 C 9 -3 10 -16 2 -26 C -7 -16 -7 -3 0 0 Z" transform="translate(70 10) rotate(4)"/>
+          </g>
+        </symbol>
+        <symbol id="m-coins" viewBox="0 0 140 120">
+          <g stroke="#7c5f1a" stroke-width="1">
+            <path d="M24 84 v10 a46 15 0 0 0 92 0 v-10 z" fill="url(#ornGold)"/><ellipse cx="70" cy="84" rx="46" ry="15" fill="url(#ornGoldTop)"/>
+            <path d="M24 66 v10 a46 15 0 0 0 92 0 v-10 z" fill="url(#ornGold)"/><ellipse cx="70" cy="66" rx="46" ry="15" fill="url(#ornGoldTop)"/>
+            <path d="M24 48 v10 a46 15 0 0 0 92 0 v-10 z" fill="url(#ornGold)"/><ellipse cx="70" cy="48" rx="46" ry="15" fill="url(#ornGoldTop)"/>
+            <ellipse cx="70" cy="48" rx="34" ry="10.5" fill="none" stroke="#8a6a1c" stroke-width="1"/>
+          </g>
+          <text x="70" y="54" text-anchor="middle" font-family="Georgia, serif" font-size="18" font-weight="700" fill="#6b5214">₹</text>
+        </symbol>
+        <symbol id="m-bar" viewBox="0 0 170 110">
+          <g transform="translate(10 24)">
+            <path d="M0 0 l120 0 l30 -22 l-120 0 z" fill="url(#ornGoldTop)"/>
+            <path d="M0 0 l120 0 l0 40 l-120 0 z" fill="url(#ornGold)"/>
+            <path d="M120 0 l30 -22 l0 40 l-30 22 z" fill="#a5801f"/>
+            <text x="60" y="25" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="15" font-weight="700" fill="#6b5214">999.9</text>
+          </g>
+        </symbol>
+        <symbol id="m-necklace" viewBox="0 0 200 170">
+          <path d="M28 22 C 44 132 156 132 172 22" fill="none" stroke="url(#ornGold)" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M44 24 C 58 112 142 112 156 24" fill="none" stroke="url(#ornGold)" stroke-width="2" stroke-opacity="0.7"/>
+          <g fill="url(#ornGoldTop)"><circle cx="60" cy="92" r="4"/><circle cx="80" cy="108" r="4.4"/><circle cx="100" cy="112" r="4.6"/><circle cx="120" cy="108" r="4.4"/><circle cx="140" cy="92" r="4"/><circle cx="46" cy="66" r="3"/><circle cx="154" cy="66" r="3"/></g>
+          <circle cx="100" cy="118" r="4" fill="url(#ornGold)"/>
+          <path d="M100 122 l13 18 -13 26 -13 -26 z" fill="url(#ornGold)" stroke="#8a6a1c" stroke-width="1"/>
+          <path d="M100 122 l13 18 -13 26 -13 -26 z" fill="url(#ornGoldTop)" opacity="0.4"/>
+        </symbol>
+        <symbol id="m-ring" viewBox="0 0 120 150">
+          <ellipse cx="60" cy="96" rx="33" ry="40" fill="none" stroke="url(#ornGold)" stroke-width="9"/>
+          <ellipse cx="60" cy="96" rx="33" ry="40" fill="none" stroke="url(#ornGoldTop)" stroke-width="3" opacity="0.6"/>
+          <path d="M60 8 l20 22 -20 24 -20 -24 z" fill="url(#ornGoldTop)" stroke="#8a6a1c" stroke-width="1"/>
+          <path d="M40 30 h40 M60 8 v46" stroke="#8a6a1c" stroke-width="1" opacity="0.5"/>
+        </symbol>
+        <symbol id="m-bangles" viewBox="0 0 190 160">
+          <ellipse cx="66" cy="80" rx="50" ry="60" fill="none" stroke="url(#ornGold)" stroke-width="6"/>
+          <ellipse cx="94" cy="82" rx="50" ry="60" fill="none" stroke="url(#ornGold)" stroke-width="6" opacity="0.85"/>
+          <ellipse cx="122" cy="80" rx="50" ry="60" fill="none" stroke="url(#ornGoldTop)" stroke-width="5" opacity="0.75"/>
+        </symbol>
+        <symbol id="m-earring" viewBox="0 0 110 180">
+          <circle cx="55" cy="28" r="12" fill="none" stroke="url(#ornGold)" stroke-width="3.5"/>
+          <path d="M55 40 v14" stroke="url(#ornGold)" stroke-width="3"/>
+          <path d="M22 80 a33 26 0 0 1 66 0 z" fill="url(#ornGold)"/>
+          <path d="M22 80 a33 26 0 0 1 66 0" fill="none" stroke="url(#ornGoldTop)" stroke-width="2"/>
+          <g fill="url(#ornGoldTop)"><circle cx="30" cy="98" r="4"/><circle cx="44" cy="104" r="4.5"/><circle cx="55" cy="106" r="5"/><circle cx="66" cy="104" r="4.5"/><circle cx="80" cy="98" r="4"/></g>
+        </symbol>
+        <symbol id="m-mangalsutra" viewBox="0 0 210 180">
+          <path d="M22 18 C 40 152 170 152 188 18" fill="none" stroke="url(#ornGold)" stroke-width="2.4" stroke-linecap="round"/>
+          <g fill="url(#ornGoldTop)"><circle cx="40" cy="70" r="3"/><circle cx="54" cy="98" r="3.2"/><circle cx="70" cy="118" r="3.4"/><circle cx="150" cy="70" r="3"/><circle cx="156" cy="98" r="3.2"/><circle cx="140" cy="118" r="3.4"/><circle cx="90" cy="130" r="3.2"/><circle cx="120" cy="130" r="3.2"/></g>
+          <circle cx="92" cy="140" r="15" fill="url(#ornGold)" stroke="#8a6a1c" stroke-width="1"/>
+          <circle cx="118" cy="140" r="15" fill="url(#ornGold)" stroke="#8a6a1c" stroke-width="1"/>
+          <circle cx="92" cy="140" r="7" fill="none" stroke="url(#ornGoldTop)" stroke-width="1.5"/>
+          <circle cx="118" cy="140" r="7" fill="none" stroke="url(#ornGoldTop)" stroke-width="1.5"/>
+        </symbol>
+        <symbol id="m-nath" viewBox="0 0 160 140">
+          <circle cx="66" cy="74" r="44" fill="none" stroke="url(#ornGold)" stroke-width="4"/>
+          <g fill="url(#ornGoldTop)"><circle cx="40" cy="104" r="4"/><circle cx="56" cy="114" r="4.4"/><circle cx="76" cy="116" r="4.6"/><circle cx="96" cy="110" r="4.4"/><circle cx="108" cy="96" r="4"/></g>
+          <circle cx="76" cy="130" r="5" fill="url(#ornGold)"/>
+          <path d="M108 44 q34 6 44 34" fill="none" stroke="url(#ornGold)" stroke-width="2" stroke-dasharray="1.5 5" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="m-chain" viewBox="0 0 200 120">
+          <g fill="none" stroke="url(#ornGold)" stroke-width="4.5">
+            <ellipse cx="24" cy="100" rx="15" ry="8" transform="rotate(-27 24 100)"/>
+            <ellipse cx="46" cy="88" rx="15" ry="8" transform="rotate(-27 46 88)"/>
+            <ellipse cx="68" cy="76" rx="15" ry="8" transform="rotate(-27 68 76)"/>
+            <ellipse cx="90" cy="64" rx="15" ry="8" transform="rotate(-27 90 64)"/>
+            <ellipse cx="112" cy="52" rx="15" ry="8" transform="rotate(-27 112 52)"/>
+            <ellipse cx="134" cy="40" rx="15" ry="8" transform="rotate(-27 134 40)"/>
+            <ellipse cx="156" cy="28" rx="15" ry="8" transform="rotate(-27 156 28)"/>
+            <ellipse cx="176" cy="18" rx="14" ry="7.5" transform="rotate(-27 176 18)"/>
+          </g>
+        </symbol>
+      </defs>
+    </svg>
+
+    <!-- ambient glows -->
+    <span class="glow" style="width:460px;height:460px;top:6%;left:-170px;background:rgba(201,162,39,.11)"></span>
+    <span class="glow" style="width:500px;height:500px;top:26%;right:-190px;background:rgba(124,31,44,.13)"></span>
+    <span class="glow" style="width:480px;height:480px;top:46%;left:-180px;background:rgba(201,162,39,.10)"></span>
+    <span class="glow" style="width:520px;height:520px;top:66%;right:-190px;background:rgba(124,31,44,.13)"></span>
+    <span class="glow" style="width:440px;height:440px;top:86%;left:-160px;background:rgba(201,162,39,.10)"></span>
+
+    <!-- scattered ornaments (distributed down the page, both edges) -->
+    <svg class="orn orn--lg" viewBox="0 0 160 300" style="top:1.5%;right:-2%;width:150px;opacity:.16;transform:rotate(16deg)"><use href="#m-branch" width="160" height="300"/></svg>
+    <svg class="orn" viewBox="0 0 200 170" style="top:4%;left:-14px;width:150px;opacity:.19;transform:rotate(-6deg)"><use href="#m-necklace" width="200" height="170"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 120 150" style="top:9%;right:20px;width:88px;opacity:.19;transform:rotate(12deg)"><use href="#m-ring" width="120" height="150"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 140 120" style="top:13%;left:14px;width:86px;opacity:.18"><use href="#m-coins" width="140" height="120"/></svg>
+    <svg class="orn" viewBox="0 0 190 160" style="top:17%;right:-3%;width:146px;opacity:.17;transform:rotate(8deg)"><use href="#m-bangles" width="190" height="160"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 140 210" style="top:21%;left:-16px;width:116px;opacity:.15;transform:rotate(-18deg)"><use href="#m-leaf" width="140" height="210"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 110 180" style="top:25%;right:22px;width:76px;opacity:.19;transform:rotate(6deg)"><use href="#m-earring" width="110" height="180"/></svg>
+    <svg class="orn" viewBox="0 0 170 110" style="top:29%;left:16px;width:92px;opacity:.17;transform:rotate(-8deg)"><use href="#m-bar" width="170" height="110"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 200 170" style="top:33%;right:-2%;width:158px;opacity:.16;transform:rotate(6deg)"><use href="#m-necklace" width="200" height="170"/></svg>
+    <svg class="orn orn--lg orn--m-hide" viewBox="0 0 160 300" style="top:37%;left:-3%;width:156px;opacity:.14;transform:rotate(196deg)"><use href="#m-branch" width="160" height="300"/></svg>
+    <svg class="orn" viewBox="0 0 120 150" style="top:41%;right:20px;width:92px;opacity:.18;transform:rotate(-10deg)"><use href="#m-ring" width="120" height="150"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 190 160" style="top:45%;left:-12px;width:150px;opacity:.15;transform:rotate(-8deg)"><use href="#m-bangles" width="190" height="160"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 140 120" style="top:49%;right:16px;width:90px;opacity:.16"><use href="#m-coins" width="140" height="120"/></svg>
+    <svg class="orn" viewBox="0 0 110 180" style="top:53%;left:18px;width:80px;opacity:.18;transform:rotate(-6deg)"><use href="#m-earring" width="110" height="180"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 140 210" style="top:57%;right:14px;width:116px;opacity:.14;transform:rotate(196deg)"><use href="#m-leaf" width="140" height="210"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 200 170" style="top:61%;left:-14px;width:150px;opacity:.16;transform:rotate(8deg)"><use href="#m-necklace" width="200" height="170"/></svg>
+    <svg class="orn" viewBox="0 0 170 110" style="top:65%;right:24px;width:90px;opacity:.17;transform:rotate(10deg)"><use href="#m-bar" width="170" height="110"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 120 150" style="top:69%;left:16px;width:90px;opacity:.18;transform:rotate(8deg)"><use href="#m-ring" width="120" height="150"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 190 160" style="top:73%;right:-3%;width:146px;opacity:.15;transform:rotate(-6deg)"><use href="#m-bangles" width="190" height="160"/></svg>
+    <svg class="orn" viewBox="0 0 140 120" style="top:77%;left:-8px;width:88px;opacity:.16"><use href="#m-coins" width="140" height="120"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 110 180" style="top:81%;right:20px;width:78px;opacity:.18;transform:rotate(8deg)"><use href="#m-earring" width="110" height="180"/></svg>
+    <svg class="orn orn--lg orn--m-hide" viewBox="0 0 160 300" style="top:85%;left:-2%;width:150px;opacity:.14;transform:rotate(-18deg)"><use href="#m-branch" width="160" height="300"/></svg>
+    <svg class="orn" viewBox="0 0 200 170" style="top:89%;right:-2%;width:154px;opacity:.16;transform:rotate(-6deg)"><use href="#m-necklace" width="200" height="170"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 140 210" style="top:93%;left:-16px;width:116px;opacity:.14;transform:rotate(-14deg)"><use href="#m-leaf" width="140" height="210"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 120 150" style="top:96.5%;right:22px;width:92px;opacity:.16;transform:rotate(12deg)"><use href="#m-ring" width="120" height="150"/></svg>
+    <!-- extra density: mangalsutra, nath, chain + more -->
+    <svg class="orn" viewBox="0 0 210 180" style="top:6%;left:-16px;width:158px;opacity:.2;transform:rotate(-5deg)"><use href="#m-mangalsutra" width="210" height="180"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 160 140" style="top:11%;right:-2%;width:100px;opacity:.22;transform:rotate(10deg)"><use href="#m-nath" width="160" height="140"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 200 120" style="top:15.5%;left:16px;width:150px;opacity:.2;transform:rotate(-4deg)"><use href="#m-chain" width="200" height="120"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 120 150" style="top:27%;left:-10px;width:92px;opacity:.21;transform:rotate(8deg)"><use href="#m-ring" width="120" height="150"/></svg>
+    <svg class="orn" viewBox="0 0 110 180" style="top:31%;right:20px;width:80px;opacity:.22;transform:rotate(6deg)"><use href="#m-earring" width="110" height="180"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 190 160" style="top:39%;right:-2%;width:148px;opacity:.19;transform:rotate(8deg)"><use href="#m-bangles" width="190" height="160"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 210 180" style="top:47%;right:16px;width:158px;opacity:.19;transform:rotate(6deg)"><use href="#m-mangalsutra" width="210" height="180"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 200 120" style="top:55%;right:-2%;width:150px;opacity:.2;transform:rotate(6deg)"><use href="#m-chain" width="200" height="120"/></svg>
+    <svg class="orn" viewBox="0 0 160 140" style="top:63%;left:-12px;width:100px;opacity:.21;transform:rotate(-8deg)"><use href="#m-nath" width="160" height="140"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 200 170" style="top:71%;right:16px;width:154px;opacity:.19;transform:rotate(-6deg)"><use href="#m-necklace" width="200" height="170"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 110 180" style="top:79%;left:16px;width:82px;opacity:.22;transform:rotate(-6deg)"><use href="#m-earring" width="110" height="180"/></svg>
+    <svg class="orn orn--m-hide" viewBox="0 0 200 120" style="top:87%;left:-10px;width:150px;opacity:.19;transform:rotate(-4deg)"><use href="#m-chain" width="200" height="120"/></svg>
+    <svg class="orn" viewBox="0 0 210 180" style="top:95%;left:-14px;width:156px;opacity:.19;transform:rotate(6deg)"><use href="#m-mangalsutra" width="210" height="180"/></svg>
 
   <!-- ===================== Live prices ===================== -->
   <section class="section" id="prices">
@@ -203,6 +360,20 @@
     </div>
   </section>
 
+  <!-- ===================== Gallery ===================== -->
+  <section class="section divider gallery" id="gallery">
+    <div class="container">
+      <div class="head center" data-aos="fade-up">
+        <div class="center"><span class="eyebrow">Inside Kanak</span></div>
+        <h2>From scrap to bullion</h2>
+        <p>Tap any image to see how each stage works, in detail.</p>
+      </div>
+    </div>
+    <div class="container" data-aos="fade-up">
+      <div class="swiper" id="gallerySwiper"><div class="swiper-wrapper" id="galleryWrap"></div></div>
+    </div>
+  </section>
+
   <!-- ===================== Why choose ===================== -->
   <section class="section divider" id="why">
     <div class="container">
@@ -218,9 +389,37 @@
   <!-- ===================== About + history ===================== -->
   <section class="section divider" id="about">
     <div class="container about">
-      <div class="about__media" data-aos="fade-right">
-        <img src="photo-goldbars.jpg" alt="Certified fine gold bars" onerror="this.onerror=null;this.src='casting.svg';" />
-        <div class="about__media badge glass-2"><b class="num">Since 1969</b><span>A legacy of metal craftsmanship</span></div>
+      <div class="story" data-aos="fade-right">
+        <span class="story__glow" aria-hidden="true"></span>
+        <div class="story__frame story__main">
+          <img src="photo-goldpour.jpg" alt="Foundry workers pouring molten gold into moulds during refining" loading="lazy" onerror="this.onerror=null;this.src='forging.svg';" />
+          <span class="story__shine" aria-hidden="true"></span>
+        </div>
+        <div class="story__frame story__float">
+          <img src="photo-jewellery.jpg" alt="Heritage gold jewellery" loading="lazy" onerror="this.onerror=null;this.src='scrap.svg';" />
+        </div>
+        <div class="story__seal" aria-hidden="true">
+          <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sealG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2a0"/><stop offset="1" stop-color="#c9a227"/></linearGradient>
+              <path id="sealArc" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/>
+            </defs>
+            <circle cx="60" cy="60" r="58" fill="#0c0a07"/>
+            <g class="seal-ring">
+              <circle cx="60" cy="60" r="57" fill="none" stroke="url(#sealG)" stroke-width="1.5"/>
+              <circle cx="60" cy="60" r="46" fill="none" stroke="url(#sealG)" stroke-width="1" stroke-opacity="0.45"/>
+              <text fill="#f6e2a0" font-family="Montserrat, sans-serif" font-size="9" font-weight="600" letter-spacing="2.4"><textPath href="#sealArc" startOffset="0">PURITY · PRECISION · TRUST · EST 1969 · </textPath></text>
+            </g>
+            <path d="M60 45 l15 11 -15 24 -15 -24 z" fill="url(#sealG)"/>
+            <path d="M45 56 h30 M60 45 v35" stroke="#0c0a07" stroke-width="1" opacity="0.55"/>
+          </svg>
+        </div>
+        <div class="story__stat glass-2">
+          <b class="num text-gold">999.9</b><span>Fineness</span>
+        </div>
+        <div class="story__badge glass-2">
+          <b class="num">Since 1969</b><span>A legacy of metal craftsmanship</span>
+        </div>
       </div>
       <div data-aos="fade-left">
         <span class="eyebrow">Our Story</span>
@@ -255,19 +454,6 @@
         <h2>What defines us</h2>
       </div>
       <div class="grid g3" id="hlGrid"></div>
-    </div>
-  </section>
-
-  <!-- ===================== Gallery ===================== -->
-  <section class="section divider gallery" id="gallery">
-    <div class="container">
-      <div class="head center" data-aos="fade-up">
-        <div class="center"><span class="eyebrow">Inside Kanak</span></div>
-        <h2>From scrap to bullion</h2>
-      </div>
-    </div>
-    <div class="container" data-aos="fade-up">
-      <div class="swiper" id="gallerySwiper"><div class="swiper-wrapper" id="galleryWrap"></div></div>
     </div>
   </section>
 
@@ -369,6 +555,7 @@
       </div>
     </div>
   </footer>
+  </div><!-- /.ornate -->
 
   <!-- ===================== Floating price widget ===================== -->
   <aside class="price-widget glass-2" id="priceWidget">
@@ -392,6 +579,21 @@
     <a href="https://wa.me/919824153695" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z"/></svg>WhatsApp</a>
     <a href="https://www.google.com/maps?q=Mahagujarat+Industrial+Estate,+Moraiya,+Sanand,+Ahmedabad" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Direction</a>
   </nav>
+
+  <!-- ===================== Gallery lightbox ===================== -->
+  <div class="lightbox" id="galleryLightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Gallery details">
+    <div class="lightbox__scrim" data-lb-close></div>
+    <div class="lightbox__panel glass-2" role="document">
+      <button class="lightbox__close" id="lbClose" aria-label="Close" data-lb-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <div class="lightbox__media"><img id="lbImg" src="" alt="" /></div>
+      <div class="lightbox__body">
+        <span class="tg" id="lbTag"></span>
+        <h3 id="lbTitle"></h3>
+        <div class="lightbox__desc" id="lbDesc"></div>
+        <a href="#contact" class="btn btn-gold magnetic" data-lb-close>Enquire About This</a>
+      </div>
+    </div>
+  </div>
 
   <!-- ===================== Scripts ===================== -->
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>

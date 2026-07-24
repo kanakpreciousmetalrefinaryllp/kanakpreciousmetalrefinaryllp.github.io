@@ -32,18 +32,129 @@
     check: '<path d="M20 6 9 17l-5-5"/>'
   };
 
-  /* -------- Process (6 steps) -------- */
+  /* -------- Process (6 steps) --------
+     Each step carries a hand-built SVG illustration (s.g) so visitors can
+     see, not just read, what happens at that stage. viewBox 320x180. */
+  var PA = {
+    // 1 — Receive Material: sealed parcel weighed on a calibrated scale
+    receive:
+      '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><linearGradient id="a1b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151210"/><stop offset="1" stop-color="#0a0806"/></linearGradient>' +
+      '<linearGradient id="a1g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2a0"/><stop offset="1" stop-color="#c9a227"/></linearGradient></defs>' +
+      '<rect width="320" height="180" fill="url(#a1b)"/>' +
+      '<ellipse cx="160" cy="158" rx="120" ry="20" fill="#c9a227" opacity="0.10"/>' +
+      '<rect x="92" y="146" width="136" height="10" rx="4" fill="#2b2620"/>' +
+      '<rect x="150" y="120" width="20" height="28" fill="#37312a"/>' +
+      '<rect x="100" y="110" width="120" height="12" rx="4" fill="#4a4335"/>' +
+      '<circle cx="250" cy="104" r="18" fill="#17130d" stroke="url(#a1g)" stroke-width="2"/>' +
+      '<path d="M250 104 l9 -5" stroke="#f6e2a0" stroke-width="2" stroke-linecap="round"/>' +
+      '<circle cx="250" cy="104" r="2.5" fill="#f6e2a0"/>' +
+      '<rect x="118" y="58" width="84" height="54" rx="4" fill="#7c5f1a"/>' +
+      '<rect x="118" y="58" width="84" height="54" rx="4" fill="url(#a1g)" opacity="0.22"/>' +
+      '<path d="M118 80 h84" stroke="#4f3d10" stroke-width="3"/>' +
+      '<rect x="152" y="58" width="16" height="54" fill="#4f3d10" opacity="0.55"/>' +
+      '<circle cx="160" cy="80" r="9" fill="url(#a1g)"/>' +
+      '<path d="M156 80 l3 3 5 -6" stroke="#1c1405" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '</svg>',
+    // 2 — Testing: flask sample under a magnifier beside an assay spectrum
+    testing:
+      '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><linearGradient id="a2b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101413"/><stop offset="1" stop-color="#080a0a"/></linearGradient>' +
+      '<linearGradient id="a2l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd35c"/><stop offset="1" stop-color="#e07a1e"/></linearGradient>' +
+      '<linearGradient id="a2g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2a0"/><stop offset="1" stop-color="#c9a227"/></linearGradient></defs>' +
+      '<rect width="320" height="180" fill="url(#a2b)"/>' +
+      '<ellipse cx="120" cy="160" rx="120" ry="20" fill="#c9a227" opacity="0.10"/>' +
+      '<g fill="url(#a2g)" opacity="0.85"><rect x="212" y="96" width="10" height="48" rx="2"/><rect x="228" y="74" width="10" height="70" rx="2"/><rect x="244" y="108" width="10" height="36" rx="2"/><rect x="260" y="60" width="10" height="84" rx="2"/><rect x="276" y="90" width="10" height="54" rx="2"/></g>' +
+      '<rect x="206" y="144" width="92" height="4" rx="2" fill="#4a4335"/>' +
+      '<rect x="104" y="52" width="16" height="26" fill="#0f1413" stroke="#bfe6df" stroke-width="2" stroke-opacity="0.45"/>' +
+      '<path d="M96 76 L128 76 L150 132 A8 8 0 0 1 143 144 L81 144 A8 8 0 0 1 74 132 Z" fill="#0f1413" stroke="#bfe6df" stroke-width="2" stroke-opacity="0.5"/>' +
+      '<path d="M86 116 L138 116 L143 132 A8 8 0 0 1 136 144 L88 144 A8 8 0 0 1 81 132 Z" fill="url(#a2l)" opacity="0.92"/>' +
+      '<circle cx="112" cy="94" r="22" fill="#ffffff" opacity="0.05"/>' +
+      '<circle cx="112" cy="94" r="22" fill="none" stroke="url(#a2g)" stroke-width="4"/>' +
+      '<path d="M128 110 l16 16" stroke="url(#a2g)" stroke-width="6" stroke-linecap="round"/>' +
+      '</svg>',
+    // 3 — Melting: crucible pouring molten gold into an ingot mould over flame
+    melting:
+      '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><radialGradient id="a3glow" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#ff9d2e" stop-opacity="0.5"/><stop offset="1" stop-color="#ff9d2e" stop-opacity="0"/></radialGradient>' +
+      '<linearGradient id="a3b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#161210"/><stop offset="1" stop-color="#0a0705"/></linearGradient>' +
+      '<linearGradient id="a3m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset="0.5" stop-color="#ffb347"/><stop offset="1" stop-color="#e0641e"/></linearGradient>' +
+      '<linearGradient id="a3g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2a0"/><stop offset="1" stop-color="#c9a227"/></linearGradient></defs>' +
+      '<rect width="320" height="180" fill="url(#a3b)"/>' +
+      '<rect width="320" height="180" fill="url(#a3glow)"/>' +
+      '<rect x="150" y="130" width="96" height="24" rx="4" fill="#2a2620"/>' +
+      '<rect x="156" y="126" width="84" height="10" rx="4" fill="url(#a3m)"/>' +
+      '<path d="M150 92 q4 26 42 40" stroke="url(#a3m)" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+      '<g transform="rotate(-22 118 84)"><path d="M88 66 h60 l-10 44 a4 4 0 0 1 -4 3 h-28 a4 4 0 0 1 -4 -3 z" fill="#332c22" stroke="url(#a3g)" stroke-width="2"/><ellipse cx="118" cy="66" rx="30" ry="8" fill="url(#a3m)"/></g>' +
+      '<g fill="url(#a3m)" opacity="0.9"><path d="M120 150 q-8 -16 0 -28 q8 12 0 28 z"/><path d="M140 152 q-7 -14 0 -24 q7 10 0 24 z"/><path d="M100 152 q-6 -12 0 -22 q6 9 0 22 z"/></g>' +
+      '</svg>',
+    // 4 — Chemical Refining: bench of beakers with reacting solutions & vapour
+    refining:
+      '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><linearGradient id="a4b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e1413"/><stop offset="1" stop-color="#070a0a"/></linearGradient>' +
+      '<linearGradient id="a4l1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd35c"/><stop offset="1" stop-color="#e07a1e"/></linearGradient>' +
+      '<linearGradient id="a4l2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fe3d2"/><stop offset="1" stop-color="#1c8f86"/></linearGradient></defs>' +
+      '<rect width="320" height="180" fill="url(#a4b)"/>' +
+      '<ellipse cx="160" cy="160" rx="130" ry="20" fill="#37d0c0" opacity="0.10"/>' +
+      '<path d="M96 70 v56 a10 10 0 0 0 10 10 h34 a10 10 0 0 0 10 -10 v-56" fill="#ffffff" opacity="0.05"/>' +
+      '<path d="M96 70 v56 a10 10 0 0 0 10 10 h34 a10 10 0 0 0 10 -10 v-56" fill="none" stroke="#bfe6df" stroke-width="2" stroke-opacity="0.5"/>' +
+      '<path d="M96 100 v26 a10 10 0 0 0 10 10 h34 a10 10 0 0 0 10 -10 v-26 z" fill="url(#a4l1)" opacity="0.9"/>' +
+      '<line x1="92" y1="70" x2="154" y2="70" stroke="#bfe6df" stroke-width="3" stroke-opacity="0.6" stroke-linecap="round"/>' +
+      '<circle cx="112" cy="118" r="3" fill="#fff6d8"/><circle cx="130" cy="112" r="2.4" fill="#fff6d8"/>' +
+      '<rect x="196" y="46" width="16" height="30" fill="#ffffff" opacity="0.05"/>' +
+      '<rect x="196" y="46" width="16" height="30" fill="none" stroke="#bfe6df" stroke-width="2" stroke-opacity="0.5"/>' +
+      '<circle cx="204" cy="104" r="34" fill="#ffffff" opacity="0.05"/>' +
+      '<circle cx="204" cy="104" r="34" fill="none" stroke="#bfe6df" stroke-width="2" stroke-opacity="0.5"/>' +
+      '<path d="M174 112 a34 34 0 0 0 60 0 a30 30 0 0 1 -60 0 z" fill="url(#a4l2)" opacity="0.9"/>' +
+      '<circle cx="198" cy="112" r="3" fill="#dffaf5"/><circle cx="214" cy="118" r="2.4" fill="#dffaf5"/>' +
+      '<g fill="#bfe6df" opacity="0.35"><circle cx="204" cy="40" r="7"/><circle cx="120" cy="56" r="6"/></g>' +
+      '</svg>',
+    // 5 — Purity Test: 999.9 gold bar with a certified seal & checkmark
+    purity:
+      '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><linearGradient id="a5b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151210"/><stop offset="1" stop-color="#0a0806"/></linearGradient>' +
+      '<linearGradient id="a5g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6d8"/><stop offset="0.5" stop-color="#f6e2a0"/><stop offset="1" stop-color="#c9a227"/></linearGradient></defs>' +
+      '<rect width="320" height="180" fill="url(#a5b)"/>' +
+      '<ellipse cx="150" cy="150" rx="120" ry="22" fill="#c9a227" opacity="0.12"/>' +
+      '<path d="M74 92 L166 92 L182 140 L58 140 Z" fill="url(#a5g)"/>' +
+      '<path d="M74 92 L166 92 L160 104 L80 104 Z" fill="#fff6d8" opacity="0.5"/>' +
+      '<text x="120" y="128" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="20" font-weight="700" fill="#5c4713">999.9</text>' +
+      '<circle cx="238" cy="74" r="30" fill="#7c1f2c"/>' +
+      '<circle cx="238" cy="74" r="30" fill="none" stroke="url(#a5g)" stroke-width="3"/>' +
+      '<path d="M226 74 l8 9 15 -18" stroke="#f6e2a0" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M228 100 l-6 22 12 -8 12 8 -6 -22 z" fill="#7c1f2c"/>' +
+      '<path d="M60 58 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="#fff6d8"/>' +
+      '</svg>',
+    // 6 — Delivery: secure, shielded van carrying serialised bullion
+    delivery:
+      '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><linearGradient id="a6b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#131210"/><stop offset="1" stop-color="#0a0806"/></linearGradient>' +
+      '<linearGradient id="a6g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2a0"/><stop offset="1" stop-color="#c9a227"/></linearGradient></defs>' +
+      '<rect width="320" height="180" fill="url(#a6b)"/>' +
+      '<ellipse cx="160" cy="150" rx="140" ry="18" fill="#c9a227" opacity="0.10"/>' +
+      '<g stroke="#c9a227" stroke-width="3" stroke-linecap="round" opacity="0.5"><path d="M20 78 h34"/><path d="M14 98 h44"/><path d="M24 118 h30"/></g>' +
+      '<path d="M70 60 h96 v64 h-96 z" fill="#2b2721" stroke="url(#a6g)" stroke-width="2"/>' +
+      '<path d="M166 82 h30 l22 22 v20 h-52 z" fill="#332e26" stroke="url(#a6g)" stroke-width="2"/>' +
+      '<rect x="172" y="88" width="24" height="16" rx="2" fill="#0f1413" stroke="#bfe6df" stroke-width="1.5" stroke-opacity="0.4"/>' +
+      '<path d="M104 74 l16 6 v14 c0 12 -16 20 -16 20 s-16 -8 -16 -20 v-14 z" fill="#7c1f2c" stroke="url(#a6g)" stroke-width="2"/>' +
+      '<path d="M97 94 l6 6 12 -12" stroke="#f6e2a0" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<circle cx="102" cy="126" r="14" fill="#17130d" stroke="url(#a6g)" stroke-width="3"/>' +
+      '<circle cx="186" cy="126" r="14" fill="#17130d" stroke="url(#a6g)" stroke-width="3"/>' +
+      '<circle cx="102" cy="126" r="4" fill="#c9a227"/><circle cx="186" cy="126" r="4" fill="#c9a227"/>' +
+      '</svg>'
+  };
   var steps = [
-    { i: I.inbox, t: 'Receive Material', d: 'Weighed, sealed & logged' },
-    { i: I.flask, t: 'Testing', d: 'Fire assay · XRF · ICP' },
-    { i: I.flame, t: 'Melting', d: 'Induction to 1,800°C' },
-    { i: I.beaker, t: 'Chemical Refining', d: 'Aqua regia & electrolysis' },
-    { i: I.badge, t: 'Purity Test', d: 'Certified fineness' },
-    { i: I.truck, t: 'Delivery', d: 'Insured & serialised' }
+    { i: I.inbox, g: PA.receive, t: 'Receive Material', d: 'Every lot is weighed on calibrated scales, photographed, sealed and logged with a unique reference in front of you — a fully traceable record from the moment it arrives.' },
+    { i: I.flask, g: PA.testing, t: 'Testing', d: 'A representative sample is drawn and analysed by fire assay, XRF and ICP-OES/MS to establish exact gold, silver and PGM content before any processing begins.' },
+    { i: I.flame, g: PA.melting, t: 'Melting', d: 'Homogenised material is induction-melted up to 1,800°C, then poured and sampled so the assayed value reflects the true, thoroughly mixed content of the whole lot.' },
+    { i: I.beaker, g: PA.refining, t: 'Chemical Refining', d: 'Metals are separated and purified through aqua regia dissolution, precipitation and electrolysis — driving gold and silver to 999.9 fineness while recovering base and PGM values.' },
+    { i: I.badge, g: PA.purity, t: 'Purity Test', d: 'The finished metal is re-assayed and certified against LBMA and BIS standards, with a serialised fineness certificate documenting the exact purity of every bar.' },
+    { i: I.truck, g: PA.delivery, t: 'Delivery', d: 'Refined bullion or transparent, assay-backed settlement is delivered through insured, GPS-tracked logistics — each bar serialised and reconciled to your original lot.' }
   ];
   var pt = $('#procTrack');
   if (pt) pt.innerHTML = steps.map(function (s, n) {
     return '<div class="step" data-aos="fade-up" data-aos-delay="' + (n * 45) + '">' +
+      '<div class="step__art">' + s.g + '</div>' +
       '<div class="step__node"><span class="step__no num">' + (n + 1) + '</span>' + svg(s.i) + '</div>' +
       '<h3>' + s.t + '</h3><p>' + s.d + '</p></div>';
   }).join('');
@@ -92,7 +203,7 @@
   /* -------- History timeline -------- */
   var history = [
     { y: '1969', e: 'Mullarram Patel (Pahalvan) — Banaras Metal Grinding Works founded.' },
-    { y: '2013', e: 'Naval Metal Grinding Works — Jitendra Mullarram Patel.' },
+    { y: '2013', e: 'Jitendra Mullarram Patel. — Naval Metal Grinding Works' },
     { y: '2021', e: 'Ambalal Mullarram Patel — Banaras Metal Grinding Works.' },
     { y: '2026', e: 'Kanak Precious Metal Refinery LLP — present.', now: true }
   ];
@@ -103,17 +214,36 @@
 
   /* -------- Gallery scenes -------- */
   var scenes = [
-    { img: 'photo-goldbars.jpg', fb: 'casting.svg', tg: 'Bullion', h: 'Fine Gold Bars' },
-    { img: 'photo-jewellery.jpg', fb: 'scrap.svg', tg: 'Jewellery', h: 'Gold Ornaments' },
-    { img: 'forging.svg', fb: 'forging.svg', tg: 'Forging', h: 'Molten Gold Pour' },
-    { img: 'photo-bullion.jpg', fb: 'casting.svg', tg: 'Trading', h: 'Bars & Coins' },
-    { img: 'refining.svg', fb: 'refining.svg', tg: 'Processing', h: 'Chemical Refining' },
-    { img: 'photo-earrings.jpg', fb: 'scrap.svg', tg: 'Craft', h: 'Fine Jewellery' }
+    {
+      img: 'photo-goldbars.jpg', fb: 'casting.svg', tg: 'Bullion', h: 'Fine Gold Bars',
+      d: 'These are cast bars of refined gold, drawn to 999.9 fineness — the highest purity grade traded in the bullion market. Each bar begins as mixed scrap, dust or old ornaments and leaves our refinery as certified, investment-grade metal. Before casting, the melt is homogenised and sampled so the stamped weight and purity exactly match an independent assay. Every bar is serialised with a unique number, its fineness, weight and our refinery mark. That serial links the finished bar back to the original lot it was refined from, giving a complete, auditable chain of custody. Bars are produced in a range of standard sizes to suit jewellers, investors and institutional buyers. Each one ships with a fineness certificate recognised against LBMA and BIS standards. The consistent colour and mirror finish you see are a direct visual sign of high, uniform purity. For clients, this is the end product of the entire refining journey — value they can store, trade or convert with total confidence.'
+    },
+    {
+      img: 'photo-jewellery.jpg', fb: 'scrap.svg', tg: 'Jewellery', h: 'Gold Ornaments',
+      d: 'Old and broken gold ornaments are one of the most common materials we receive for refining. Bangles, chains, rings and worn hallmark jewellery all carry gold locked up alongside alloys, solder and stones. On arrival, every piece is weighed and logged in front of you, then carefully sorted so that stones and non-gold attachments are separated and returned or accounted for. A representative sample is assayed to establish the true gold content, because stamped karat marks are often unreliable on older pieces. Only the assayed value — not the visible weight — determines your settlement, which keeps the process transparent and fair. The ornaments are then melted, homogenised and refined back to pure gold. This is how families and jewellers unlock the real, current value of pieces that are outdated, damaged or simply no longer worn. Nothing is estimated by eye; every figure is backed by laboratory testing. The result is a clear, documented conversion from sentimental scrap into certified, tradeable metal.'
+    },
+    {
+      img: 'forging.svg', fb: 'forging.svg', tg: 'Forging', h: 'Molten Gold Pour',
+      d: 'This is the melting stage, where sorted material is brought together and heated in an induction furnace to as high as 1,800°C. Melting does far more than liquefy the metal — it blends everything into one uniform mass so that a single sample truly represents the whole lot. Induction heating is clean, fast and precisely controlled, which protects the metal and the assay accuracy. As the charge becomes molten, dross and lighter impurities rise and are skimmed away from the precious metal beneath. The glowing pour you see is carefully directed into moulds or sampling dishes under strict safety controls. A sample taken at this exact moment is what the laboratory tests to confirm gold, silver and PGM content. Because the melt is fully mixed, that number applies fairly across every gram in the batch. This stage is the bridge between raw incoming material and precise chemical refining. It is where disparate scrap becomes one measurable, homogeneous unit ready for purification.'
+    },
+    {
+      img: 'photo-bullion.jpg', fb: 'casting.svg', tg: 'Trading', h: 'Bars & Coins',
+      d: 'Alongside refining, Kanak deals in finished bullion — bars and coins ready for investment and trade. These products represent gold in its most liquid, universally recognised form. Coins and small bars suit individual buyers, while larger cast bars serve jewellers and institutional clients. Each item carries clear markings of weight, purity and origin so its value can be verified anywhere. Pricing is tied transparently to live Ahmedabad market rates, which you can see updating on this very site. Because our bullion is refined and certified in-house, buyers get a clean, traceable product with no hidden quality risk. Bars and coins are also an easy way to convert refined scrap value into a portable, storable asset. Whether you are buying to invest or selling to release capital, every transaction is documented and settled to the gram. This blend of refining and trading lets clients complete the full cycle — from old metal to certified bullion to market value — under one roof.'
+    },
+    {
+      img: 'refining.svg', fb: 'refining.svg', tg: 'Processing', h: 'Chemical Refining',
+      d: 'Chemical refining is the heart of the purification process, where melted metal is separated into its individual precious components. Gold is dissolved using aqua regia, then selectively precipitated back out as a high-purity powder, leaving impurities behind in solution. Silver is recovered through its own precipitation and electrolytic steps, and platinum-group metals are captured rather than lost. Electrolysis further drives the metal toward 999.9 fineness by depositing pure gold onto cathodes under controlled current. Every chemical stage is monitored so yields are maximised and nothing of value is wasted. The process also safely manages and neutralises spent chemicals in line with environmental practice. What makes this stage powerful is its precision: it can pull real value even from low-grade sweeps, e-waste and spent catalysts. The purified metal that emerges is then re-assayed to confirm it meets certification standards. This is where the promise of full, transparent recovery is actually delivered — atom by atom, gram by gram.'
+    },
+    {
+      img: 'photo-earrings.jpg', fb: 'scrap.svg', tg: 'Craft', h: 'Fine Jewellery',
+      d: 'Fine jewellery like these earrings shows the final destination of much of the gold we refine — beautiful, wearable craftsmanship. High-purity refined gold gives artisans a clean, consistent base to alloy and work with, which shows in the finish of the finished piece. When such jewellery eventually returns as old or broken items, the same gold can be recovered and refined once more, completing a natural cycle. For jewellers, reliable purity at the refining stage means predictable results at the workbench and fewer surprises in casting. For customers, it means the karat they pay for is genuinely the karat they receive. Our assaying services also let jewellers verify incoming metal and certify their own stock with confidence. This connection between refining and craft is central to what Kanak does — we sit at the point where raw value becomes finished art. Every ornament represents trust that the metal beneath the design is exactly what it claims to be. That trust, verified by testing, is what we ultimately refine and protect.'
+    }
   ];
   var gw = $('#galleryWrap');
-  if (gw) gw.innerHTML = scenes.map(function (s) {
-    return '<div class="swiper-slide"><div class="scene"><img src="' + s.img + '" alt="' + s.h + '" loading="lazy" onerror="this.onerror=null;this.src=\'' + s.fb + '\'"/>' +
-      '<div class="scene__cap"><span class="tg">' + s.tg + '</span><h3>' + s.h + '</h3></div></div></div>';
+  if (gw) gw.innerHTML = scenes.map(function (s, n) {
+    return '<div class="swiper-slide"><button type="button" class="scene" data-scene="' + n + '" aria-label="View details: ' + s.h + '"><img src="' + s.img + '" alt="' + s.h + '" loading="lazy" onerror="this.onerror=null;this.src=\'' + s.fb + '\'"/>' +
+      '<span class="scene__badge">Tap for details</span>' +
+      '<div class="scene__cap"><span class="tg">' + s.tg + '</span><h3>' + s.h + '</h3></div></button></div>';
   }).join('');
 
   /* -------- Testimonials -------- */
@@ -137,5 +267,5 @@
   if (sm) { var o = streams.map(function (s) { return '<span class="ticker__item"><b style="color:var(--gold)">◆</b> ' + s + '</span>'; }).join(''); sm.innerHTML = o + o; }
 
   /* expose data for main.js */
-  window.KANAK = { steps: steps };
+  window.KANAK = { steps: steps, scenes: scenes };
 })();

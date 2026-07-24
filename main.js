@@ -327,7 +327,7 @@
     paintWidget();
     var src = $('#rateSrc');
     if (src) src.innerHTML = res.live
-      ? 'Live ' + CITY + ' rates — Gold 999 &amp; Silver 999 · streamed from Aarav Bullion · refreshed every ' + (REFRESH_MS / 1000) + 's · updated ' + lastT
+      ? 'Live ' + CITY + ' rates — Gold 999 &amp; Silver 999 · refreshed every ' + (REFRESH_MS / 1000) + 's · updated ' + lastT
       : 'Offline estimate — live price feed unavailable. Figures are indicative only.';
     var wt = $('#pwTime'); if (wt) wt.textContent = (res.live ? 'Live · ' : 'Offline · ') + lastT;
   }
@@ -366,7 +366,7 @@
       var end = parseFloat(el.getAttribute('data-count'));
       var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
       if (typeof countUp !== 'undefined' && countUp.CountUp) {
-        try { new countUp.CountUp(el, end, { decimalPlaces: dec, duration: 2, suffix: el.getAttribute('data-suffix') || '' }).start(); return; } catch (e) {}
+        try { new countUp.CountUp(el, end, { decimalPlaces: dec, duration: 2, suffix: el.getAttribute('data-suffix') || '' }).start(); return; } catch (e) { }
       }
       // fallback
       var s = performance.now(), suf = el.getAttribute('data-suffix') || '';
@@ -391,6 +391,40 @@
   } else {
     document.documentElement.classList.add('no-swiper');
   }
+
+  /* ============================================================
+     Gallery lightbox — tap a scene to read its full details
+     ============================================================ */
+  (function () {
+    var lb = $('#galleryLightbox');
+    if (!lb) return;
+    var lbImg = $('#lbImg'), lbTag = $('#lbTag'), lbTitle = $('#lbTitle'), lbDesc = $('#lbDesc');
+    var scenes = (window.KANAK && window.KANAK.scenes) || [];
+
+    function openLB(i) {
+      var s = scenes[i]; if (!s) return;
+      lbImg.src = s.img; lbImg.alt = s.h;
+      lbImg.onerror = function () { this.onerror = null; this.src = s.fb; };
+      lbTag.textContent = s.tg; lbTitle.textContent = s.h;
+      lbDesc.innerHTML = String(s.d || '').split('\n').map(function (p) {
+        return '<p>' + p + '</p>';
+      }).join('');
+      lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('lb-lock');
+    }
+    function closeLB() {
+      lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('lb-lock');
+    }
+
+    // Delegated: works for Swiper's cloned loop slides too.
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest ? e.target.closest('.scene') : null;
+      if (t && t.hasAttribute('data-scene')) { e.preventDefault(); openLB(+t.getAttribute('data-scene')); return; }
+      if (e.target.closest && e.target.closest('[data-lb-close]')) closeLB();
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLB(); });
+  })();
 
   /* ============================================================
      Forms (mailto fallback) + newsletter
@@ -456,7 +490,7 @@
      ============================================================ */
   if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('sw.js').catch(function () {});
+      navigator.serviceWorker.register('sw.js').catch(function () { });
     });
   }
 })();
